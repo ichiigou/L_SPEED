@@ -1,0 +1,297 @@
+#!/system/bin/sh
+# L SPEED MOD
+# Copyright (C) 2015 Paget96
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+mount -o remount,rw /
+mount -o remount,rw rootfs
+mount -o remount,rw /system
+busybox mount -o remount,rw /
+busybox mount -o remount,rw rootfs
+busybox mount -o remount,rw /system
+
+divider1="\e[0;100m============================================= \e[00;37;40m" # Black
+divider2="\e[0;101m============================================= \e[00;37;40m" # Red
+divider3="\e[0;102m============================================= \e[00;37;40m" # Green
+divider4="\e[0;103m============================================= \e[00;37;40m" # Yellow
+divider5="\e[0;104m============================================= \e[00;37;40m" # Blue
+divider6="\e[0;105m============================================= \e[00;37;40m" # Purple
+divider7="\e[0;106m============================================= \e[00;37;40m" # Cyan
+divider8="\e[0;107m============================================= \e[00;37;40m" # White
+
+busybox clear
+
+if [ "`grep HOURLY_CLEAN=1 /system/etc/cron/cron.conf`" ]; then
+	ch="\e[1;32mOn\e[0m"
+else
+	ch="\e[1;31mOff\e[0m"
+fi
+if [ "`grep DAILY_CLEAN=1 /system/etc/cron/cron.conf`" ]; then
+	cd="\e[1;32mOn\e[0m"
+else
+	cd="\e[1;31mOff\e[0m"
+fi
+if [ "`grep WEEKLY_CLEAN=1 /system/etc/cron/cron.conf`" ]; then
+	cw="\e[1;32mOn\e[0m"
+else
+	cw="\e[1;31mOff\e[0m"
+fi
+if [ "`grep HOURLY_DROP_CACHES=1 /system/etc/cron/cron.conf`" ]; then
+	dh="\e[1;32mOn\e[0m"
+else
+	dh="\e[1;31mOff\e[0m"
+fi
+if [ "`grep DAILY_DROP_CACHES=1 /system/etc/cron/cron.conf`" ]; then
+	dd="\e[1;32mOn\e[0m"
+else
+	dd="\e[1;31mOff\e[0m"
+fi
+if [ "`grep WEEKLY_DROP_CACHES=1 /system/etc/cron/cron.conf`" ]; then
+	dw="\e[1;32mOn\e[0m"
+else
+	dw="\e[1;31mOff\e[0m"
+fi
+if [ "`grep HOURLY_FSTRIM=1 /system/etc/cron/cron.conf`" ]; then
+	hf="\e[1;32mOn\e[0m"
+else
+	hf="\e[1;31mOff\e[0m"
+fi
+if [ "`grep DAILY_FSTRIM=1 /system/etc/cron/cron.conf`" ]; then
+	df="\e[1;32mOn\e[0m"
+else
+	df="\e[1;31mOff\e[0m"
+fi
+if [ "`grep WEEKLY_FSTRIM=1 /system/etc/cron/cron.conf`" ]; then
+	wf="\e[1;32mOn\e[0m"
+else
+	wf="\e[1;31mOff\e[0m"
+fi
+if [ "`grep HOURLY_ZIPALIGN_APPS=1 /system/etc/cron/cron.conf`" ]; then
+	hz="\e[1;32mOn\e[0m"
+else
+	hz="\e[1;31mOff\e[0m"
+fi
+if [ "`grep DAILY_ZIPALIGN_APPS=1 /system/etc/cron/cron.conf`" ]; then
+	dz="\e[1;32mOn\e[0m"
+else
+	dz="\e[1;31mOff\e[0m"
+fi
+if [ "`grep WEEKLY_ZIPALIGN_APPS=1 /system/etc/cron/cron.conf`" ]; then
+	wz="\e[1;32mOn\e[0m"
+else
+	wz="\e[1;31mOff\e[0m"
+fi
+
+busybox echo ""
+busybox echo -e $divider5
+busybox echo " Scheduler"
+busybox echo -e $divider5
+busybox echo -e $divider5
+busybox echo "-Cleaner"
+busybox echo -e "   1. Clean hourly        |$ch"
+busybox echo -e "   2. Clean daily         |$cd"
+busybox echo -e "   3. Clean weekly        |$cw"
+busybox echo -e "   4. Off auto clean"
+busybox echo "-Drop caches"
+busybox echo -e "   5. Drop hourly         |$dh"
+busybox echo -e "   6. Drop daily          |$dd"
+busybox echo -e "   7. Drop weekly         |$dw"
+busybox echo -e "   8. Off auto drop cache"
+busybox echo "-Fstrim"
+busybox echo -e "   9. Trim hourly         |$hf"
+busybox echo -e "   10.Trim daily          |$df"
+busybox echo -e "   11.Trim weekly         |$wf"
+busybox echo -e "   12. Off auto fstrim"
+busybox echo "-Zipalign"
+busybox echo -e "   13.Zipalign hourly     |$hz"
+busybox echo -e "   14.Zipalign daily      |$dz"
+busybox echo -e "   15.Zipalign weekly     |$wz"
+busybox echo -e "   16. Off auto zipalign"
+busybox echo -e $divider5
+busybox echo ""
+busybox echo ""
+busybox echo "0. EXIT"
+busybox echo ""
+busybox echo -n "Please select an option [1-12]: "
+read character
+case $character in
+
+1) busybox clear;
+busybox echo "Clean hourly"
+busybox sleep 1
+busybox sed -i '/HOURLY_CLEAN/c\HOURLY_CLEAN=1' /system/etc/cron/cron.conf
+busybox sed -i '/DAILY_CLEAN/c\DAILY_CLEAN=0' /system/etc/cron/cron.conf
+busybox sed -i '/WEEKLY_CLEAN/c\WEEKLY_CLEAN=0' /system/etc/cron/cron.conf
+busybox sleep 1
+LS00Scheduler
+busybox clear ;;
+
+2) busybox clear;
+busybox echo "Clean daily"
+busybox sleep 1
+busybox sed -i '/HOURLY_CLEAN/c\HOURLY_CLEAN=0' /system/etc/cron/cron.conf
+busybox sed -i '/DAILY_CLEAN/c\DAILY_CLEAN=1' /system/etc/cron/cron.conf
+busybox sed -i '/WEEKLY_CLEAN/c\WEEKLY_CLEAN=0' /system/etc/cron/cron.conf
+busybox sleep 1
+LS00Scheduler
+busybox clear ;;
+
+3) busybox clear;
+busybox echo "Clean weekly"
+busybox sleep 1
+busybox sed -i '/HOURLY_CLEAN/c\HOURLY_CLEAN=0' /system/etc/cron/cron.conf
+busybox sed -i '/DAILY_CLEAN/c\DAILY_CLEAN=0' /system/etc/cron/cron.conf
+busybox sed -i '/WEEKLY_CLEAN/c\WEEKLY_CLEAN=1' /system/etc/cron/cron.conf
+busybox sleep 1
+LS00Scheduler
+busybox clear ;;
+
+4) busybox clear;
+busybox echo "Off auto clean"
+busybox sleep 1
+busybox sed -i '/HOURLY_CLEAN/c\HOURLY_CLEAN=0' /system/etc/cron/cron.conf
+busybox sed -i '/DAILY_CLEAN/c\DAILY_CLEAN=0' /system/etc/cron/cron.conf
+busybox sed -i '/WEEKLY_CLEAN/c\WEEKLY_CLEAN=0' /system/etc/cron/cron.conf
+busybox sleep 1
+LS00Scheduler
+busybox clear ;;
+
+5) busybox clear;
+busybox echo "Drop hourly"
+busybox sleep 1
+busybox sed -i '/HOURLY_DROP_CACHES/c\HOURLY_DROP_CACHES=1' /system/etc/cron/cron.conf
+busybox sed -i '/DAILY_DROP_CACHES/c\DAILY_DROP_CACHES=0' /system/etc/cron/cron.conf
+busybox sed -i '/WEEKLY_DROP_CACHES/c\WEEKLY_DROP_CACHES=0' /system/etc/cron/cron.conf
+busybox sleep 1
+LS00Scheduler
+busybox clear ;;
+
+6) busybox clear;
+busybox echo "Drop daily"
+busybox sleep 1
+busybox sed -i '/HOURLY_DROP_CACHES/c\HOURLY_DROP_CACHES=0' /system/etc/cron/cron.conf
+busybox sed -i '/DAILY_DROP_CACHES/c\DAILY_DROP_CACHES=1' /system/etc/cron/cron.conf
+busybox sed -i '/WEEKLY_DROP_CACHES/c\WEEKLY_DROP_CACHES=0' /system/etc/cron/cron.conf
+busybox sleep 1
+LS00Scheduler
+busybox clear ;;
+
+7) busybox clear;
+busybox echo "Drop weekly"
+busybox sleep 1
+busybox sed -i '/HOURLY_DROP_CACHES/c\HOURLY_DROP_CACHES=0' /system/etc/cron/cron.conf
+busybox sed -i '/DAILY_DROP_CACHES/c\DAILY_DROP_CACHES=0' /system/etc/cron/cron.conf
+busybox sed -i '/WEEKLY_DROP_CACHES/c\WEEKLY_DROP_CACHES=1' /system/etc/cron/cron.conf
+busybox sleep 1
+LS00Scheduler
+busybox clear ;;
+
+8) busybox clear;
+busybox echo "Off auto drop caches"
+busybox sleep 1
+busybox sed -i '/HOURLY_DROP_CACHES/c\HOURLY_DROP_CACHES=0' /system/etc/cron/cron.conf
+busybox sed -i '/DAILY_DROP_CACHES/c\DAILY_DROP_CACHES=0' /system/etc/cron/cron.conf
+busybox sed -i '/WEEKLY_DROP_CACHES/c\WEEKLY_DROP_CACHES=0' /system/etc/cron/cron.conf
+busybox sleep 1
+LS00Scheduler
+busybox clear ;;
+
+9) busybox clear;
+busybox echo "Trim hourly"
+busybox sleep 1
+busybox sed -i '/HOURLY_FSTRIM/c\HOURLY_FSTRIM=1' /system/etc/cron/cron.conf
+busybox sed -i '/DAILY_FSTRIM/c\DAILY_FSTRIM=0' /system/etc/cron/cron.conf
+busybox sed -i '/WEEKLY_FSTRIM/c\WEEKLY_FSTRIM=0' /system/etc/cron/cron.conf
+busybox sleep 1
+LS00Scheduler
+busybox clear ;;
+
+10) busybox clear;
+busybox echo "Trim daily"
+busybox sleep 1
+busybox sed -i '/HOURLY_FSTRIM/c\HOURLY_FSTRIM=0' /system/etc/cron/cron.conf
+busybox sed -i '/DAILY_FSTRIM/c\DAILY_FSTRIM=1' /system/etc/cron/cron.conf
+busybox sed -i '/WEEKLY_FSTRIM/c\WEEKLY_FSTRIM=0' /system/etc/cron/cron.conf
+busybox sleep 1
+LS00Scheduler
+busybox clear ;;
+
+11) busybox clear;
+busybox echo "Trim weekly"
+busybox sleep 1
+busybox sed -i '/HOURLY_FSTRIM/c\HOURLY_FSTRIM=0' /system/etc/cron/cron.conf
+busybox sed -i '/DAILY_FSTRIM/c\DAILY_FSTRIM=0' /system/etc/cron/cron.conf
+busybox sed -i '/WEEKLY_FSTRIM/c\WEEKLY_FSTRIM=1' /system/etc/cron/cron.conf
+busybox sleep 1
+LS00Scheduler
+busybox clear ;;
+
+12) busybox clear;
+busybox echo "Off auto trim"
+busybox sleep 1
+busybox sed -i '/HOURLY_FSTRIM/c\HOURLY_FSTRIM=0' /system/etc/cron/cron.conf
+busybox sed -i '/DAILY_FSTRIM/c\DAILY_FSTRIM=0' /system/etc/cron/cron.conf
+busybox sed -i '/WEEKLY_FSTRIM/c\WEEKLY_FSTRIM=0' /system/etc/cron/cron.conf
+busybox sleep 1
+LS00Scheduler
+busybox clear ;;
+
+13) busybox clear;
+busybox echo "Zipalign hourly"
+busybox sleep 1
+busybox sed -i '/HOURLY_ZIPALIGN_APPS/c\HOURLY_ZIPALIGN_APPS=1' /system/etc/cron/cron.conf
+busybox sed -i '/DAILY_ZIPALIGN_APPS/c\DAILY_ZIPALIGN_APPS=0' /system/etc/cron/cron.conf
+busybox sed -i '/WEEKLY_ZIPALIGN_APPS/c\WEEKLY_ZIPALIGN_APPS=0' /system/etc/cron/cron.conf
+busybox sleep 1
+LS00Scheduler
+busybox clear ;;
+
+14) busybox clear;
+busybox echo "Zipalign daily"
+busybox sleep 1
+busybox sed -i '/HOURLY_ZIPALIGN_APPS/c\HOURLY_ZIPALIGN_APPS=0' /system/etc/cron/cron.conf
+busybox sed -i '/DAILY_ZIPALIGN_APPS/c\DAILY_ZIPALIGN_APPS=1' /system/etc/cron/cron.conf
+busybox sed -i '/WEEKLY_ZIPALIGN_APPS/c\WEEKLY_ZIPALIGN_APPS=0' /system/etc/cron/cron.conf
+busybox sleep 1
+LS00Scheduler
+busybox clear ;;
+
+15) busybox clear;
+busybox echo "Zipalign weekly"
+busybox sleep 1
+busybox sed -i '/HOURLY_ZIPALIGN_APPS/c\HOURLY_ZIPALIGN_APPS=0' /system/etc/cron/cron.conf
+busybox sed -i '/DAILY_ZIPALIGN_APPS/c\DAILY_ZIPALIGN_APPS=0' /system/etc/cron/cron.conf
+busybox sed -i '/WEEKLY_ZIPALIGN_APPS/c\WEEKLY_ZIPALIGN_APPS=1' /system/etc/cron/cron.conf
+busybox sleep 1
+LS00Scheduler
+busybox clear ;;
+
+16) busybox clear;
+busybox echo "Off auto zipalign"
+busybox sleep 1
+busybox sed -i '/HOURLY_ZIPALIGN_APPS/c\HOURLY_ZIPALIGN_APPS=0' /system/etc/cron/cron.conf
+busybox sed -i '/DAILY_ZIPALIGN_APPS/c\DAILY_ZIPALIGN_APPS=0' /system/etc/cron/cron.conf
+busybox sed -i '/WEEKLY_ZIPALIGN_APPS/c\WEEKLY_ZIPALIGN_APPS=0' /system/etc/cron/cron.conf
+busybox sleep 1
+LS00Scheduler
+busybox clear ;;
+
+0) busybox clear;
+LS00Wizard
+busybox clear ;;
+
+*) busybox clear;
+busybox echo "#Exit,Invalid Option"
+busybox sleep 1
+esac
+busybox echo ""
+exit

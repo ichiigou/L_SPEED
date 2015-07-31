@@ -1,0 +1,170 @@
+#!/system/bin/sh
+# L SPEED MOD
+# Copyright (C) 2015 Paget96
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+mount -o remount,rw /
+mount -o remount,rw rootfs
+mount -o remount,rw /system
+busybox mount -o remount,rw /
+busybox mount -o remount,rw rootfs
+busybox mount -o remount,rw /system
+
+# Variables
+magic=/system/etc/L_SPEED/RAM_MANAGER
+work_fol=/system/etc/init.d
+divider1="\e[0;100m============================================= \e[00;37;40m" # Black
+divider2="\e[0;101m============================================= \e[00;37;40m" # Red
+divider3="\e[0;102m============================================= \e[00;37;40m" # Green
+divider4="\e[0;103m============================================= \e[00;37;40m" # Yellow
+divider5="\e[0;104m============================================= \e[00;37;40m" # Blue
+divider6="\e[0;105m============================================= \e[00;37;40m" # Purple
+divider7="\e[0;106m============================================= \e[00;37;40m" # Cyan
+divider8="\e[0;107m============================================= \e[00;37;40m" # White
+
+busybox clear
+
+busybox echo -e $divider5
+busybox echo ""
+busybox echo " Ram manager Extended Menu"
+busybox echo ""
+busybox echo -e $divider5
+ 
+  
+if [ -e $work_fol/LS00Ram_manager_MT ]; then
+	ram_profile="\e[1;33mMultitasking\e[0m"
+elif [ -e $work_fol/LS00Ram_manager_BL ]; then
+	ram_profile="\e[1;36mBalanced\e[0m"
+elif [ -e $work_fol/LS00Ram_manager_GM ]; then
+	ram_profile="\e[1;34mGaming\e[0m"
+else
+	ram_profile="\e[1;30mDefault\e[0m"
+fi
+
+busybox sleep 1
+busybox echo -e $divider5
+busybox echo ""
+busybox echo -e "Ram manager profile: $ram_profile"
+busybox echo ""
+busybox echo -e $divider5
+busybox sleep 1
+
+busybox echo ""
+busybox echo ""
+busybox echo "-Ram manager profile"
+busybox echo "   1. Default"
+busybox echo "   2. Multitasking"
+busybox echo "   3. Balanced"
+busybox echo "   4. Gaming"
+busybox echo "5. Back to L Speed Wizard"
+busybox echo ""
+busybox echo -n "Please select an option [1-5]: "
+read character
+case $character in
+
+1) busybox clear;
+busybox echo "Starting default profile..."
+busybox sleep 1
+if [ -e $work_fol/LS00Ram_manager_MT ]; then
+	busybox rm -rf $work_fol/LS00Ram_manager_MT
+fi
+if [ -e $work_fol/LS00Ram_manager_BL ]; then
+	busybox rm -rf $work_fol/LS00Ram_manager_BL
+fi
+if [ -e $work_fol/LS00Ram_manager_GM ]; then
+	busybox rm -rf $work_fol/LS00Ram_manager_GM
+fi
+busybox echo ""
+busybox echo ""
+busybox echo "Everything is done!"
+busybox echo ""
+busybox echo "Please reboot device..."
+busybox sleep 3
+LS00Ram_manager
+busybox clear ;;
+
+2) busybox clear;
+busybox echo "Starting multitasking profile..."
+busybox sleep 1
+if [ -e $work_fol/LS00Ram_manager_MT ]; then
+	busybox rm -rf $work_fol/LS00Ram_manager_MT
+fi
+if [ -e $work_fol/LS00Ram_manager_BL ]; then
+	busybox rm -rf $work_fol/LS00Ram_manager_BL
+fi
+if [ -e $work_fol/LS00Ram_manager_GM ]; then
+	busybox rm -rf $work_fol/LS00Ram_manager_GM
+fi
+sh $magic/LS00Ram_manager_MT
+busybox cp $magic/LS00Ram_manager_MT $work_fol/LS00Ram_manager_MT
+busybox chmod 755 $work_fol/LS00Ram_manager_MT
+busybox echo ""
+busybox echo ""
+busybox echo "Everything is done!"
+busybox sleep 3
+LS00Ram_manager
+busybox clear ;;
+
+3) busybox clear;
+busybox echo "Starting balanced profile..."
+busybox sleep 1
+if [ -e $work_fol/LS00Ram_manager_MT ]; then
+	busybox rm -rf $work_fol/LS00Ram_manager_MT
+fi
+if [ -e $work_fol/LS00Ram_manager_BL ]; then
+	busybox rm -rf $work_fol/LS00Ram_manager_BL
+fi
+if [ -e $work_fol/LS00Ram_manager_GM ]; then
+	busybox rm -rf $work_fol/LS00Ram_manager_GM
+fi
+sh $magic/LS00Ram_manager_BL
+busybox cp $magic/LS00Ram_manager_BL $work_fol/LS00Ram_manager_BL
+busybox chmod 755 $work_fol/LS00Ram_manager_BL
+busybox echo ""
+busybox echo ""
+busybox echo "Everything is done!"
+busybox sleep 3
+LS00Ram_manager
+busybox clear ;;
+
+4) busybox clear;
+busybox echo "Starting gaming profile..."
+busybox sleep 1
+if [ -e $work_fol/LS00Ram_manager_MT ]; then
+	busybox rm -rf $work_fol/LS00Ram_manager_MT
+fi
+if [ -e $work_fol/LS00Ram_manager_BL ]; then
+	busybox rm -rf $work_fol/LS00Ram_manager_BL
+fi
+if [ -e $work_fol/LS00Ram_manager_GM ]; then
+	busybox rm -rf $work_fol/LS00Ram_manager_GM
+fi
+sh $magic/LS00Ram_manager_GM
+busybox cp $magic/LS00Ram_manager_GM $work_fol/LS00Ram_manager_GM
+busybox chmod 755 $work_fol/LS00Ram_manager_GM
+busybox echo ""
+busybox echo ""
+busybox echo "Everything is done!"
+busybox sleep 3
+LS00Ram_manager
+busybox clear ;;
+
+5) busybox clear;
+sh system/bin/LS00Wizard
+busybox clear ;;
+
+*) busybox clear;
+busybox echo "#Exit,Invalid Option"
+busybox sleep 1
+esac
+busybox echo ""
+exit

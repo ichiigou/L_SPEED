@@ -1,0 +1,9 @@
+#!/system/bin/sh
+
+. /system/etc/cron/cron.conf
+
+	if test $DAILY_FSTRIM -eq 1; then
+             /system/etc/L_SPEED/00L_STUFF/fstrim -v /cache;
+             /system/etc/L_SPEED/00L_STUFF/fstrim -v /data;
+       	/system/etc/L_SPEED/00L_STUFF/fstrim -v /system;
+	fi

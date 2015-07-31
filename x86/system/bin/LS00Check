@@ -1,0 +1,136 @@
+#!/system/bin/sh
+# L SPEED MOD
+# Copyright (C) 2015 Paget96
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+busybox clear
+   
+busybox echo ""
+busybox echo "==========================================="
+busybox echo "==    L Speed - Make your device smoother      =="
+busybox echo "==                        Paget96@XDA                      =="
+busybox echo "==               ^~^~^~^~^~^~^~^~^~^            =="
+busybox echo "==========================================="
+busybox sleep 2
+busybox echo ""
+busybox echo "Checking all installed files, please wait..."
+busybox sleep 2
+busybox echo ""
+busybox echo "Checking for init.d support..."
+busybox sleep 1
+if [ -e /system/etc/init.d ]; then
+	busybox echo ""
+	busybox echo "Folder was found and you have fully init.d support.."
+	busybox sleep 1
+else
+	busybox echo ""
+	busybox echo "Folder was not found, you don't have init.d support :("
+	busybox sleep 1
+fi
+
+busybox echo ""
+busybox echo "Checking L Speed folder.."
+busybox sleep 1
+if [ -e /system/etc/L_SPEED ]; then
+	busybox echo ""
+	busybox echo "L Speed folder exists :)"
+	busybox sleep 1
+else
+	busybox echo ""
+	busybox echo "L Speed folder was not found, please go to recovery and RE-FLASH L Speed."
+	busybox sleep 1
+fi
+
+busybox echo ""
+busybox echo "checking bin folder..."
+busybox sleep 1
+busybox echo ""
+busybox echo "Checking for L Wizard..."
+busybox sleep 1
+if [ -e /system/bin/LS00Wizard ]; then
+	busybox echo ""
+	busybox echo "L Wizard is installed..."
+	busybox sleep 1
+else
+	busybox echo ""
+	busybox echo "L Wizard was not found, please go to recovery and RE-FLASH L Speed."
+	busybox sleep 1
+fi
+  
+busybox echo ""
+busybox echo "Checking for L-check binary..."
+busybox sleep 1
+if [ -e /system/bin/LS00Check ]; then
+	busybox echo ""
+	busybox echo "L-check is installed..."
+	busybox sleep 1
+else
+	busybox echo ""
+	busybox echo "L-check  was not found, please go to recovery and RE-FLASH L Speed."
+	busybox sleep 1
+fi
+
+busybox echo ""
+busybox echo "Checking for seeder binary..."
+busybox sleep 1
+if [ -e /system/bin/LS00Seeder ]; then
+	busybox echo ""
+	busybox echo "seeder binary is installed..."
+	busybox sleep 1
+else
+	busybox echo ""
+	busybox echo "seeder binary was not found, please go to recovery and RE-FLASH L Speed."
+	busybox sleep 1
+fi
+
+busybox echo ""
+busybox echo "Checking L  Speed binary..."
+busybox sleep 1
+if [ -e /system/bin/LS ]; then
+	busybox echo ""
+	busybox echo "L Speed binary is installed..."
+	busybox sleep 1
+else
+	busybox echo ""
+	busybox echo "L Speed binary was not found, please go to recovery and RE-FLASH L Speed."
+	busybox sleep 1
+fi
+
+busybox echo ""
+busybox echo "Checking for build.prop tweaker binary..."
+busybox sleep 1
+if [ -e /system/bin/LS00build.prop ]; then
+	busybox echo ""
+	busybox echo "build.prop tweaker binary is installed..."
+	busybox sleep 1
+else
+	busybox echo ""
+	busybox echo "build.prop tweaker was not found, please go to recovery and RE-FLASH L Speed."
+	busybox sleep 1
+fi
+
+busybox echo ""
+busybox echo "Checking for Cleaner binary..."
+busybox sleep 1
+if [ -e /system/bin/LS00Cleaner ]; then
+	busybox echo ""
+	busybox echo "Cleaner binary is installed..."
+	busybox sleep 1
+else
+	busybox echo ""
+	busybox echo "Cleaner was not found, please go to recovery and RE-FLASH L Speed."
+	busybox sleep 1
+fi
+
+busybox echo ""
+busybox echo "Checking L Speed files is finished!"
+busybox sleep 5
+exit 0

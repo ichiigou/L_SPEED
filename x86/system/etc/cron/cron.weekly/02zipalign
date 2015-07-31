@@ -1,0 +1,9 @@
+#!/system/bin/sh
+
+. /system/etc/cron/cron.conf
+
+if test $WEEKLY_ZIPALIGN_APPS -eq 1; then
+       if [ -e /system/etc/init.d/LS00Zipalign ]; then
+		sh /system/etc/init.d/LS00Zipalign
+	fi
+fi

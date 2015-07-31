@@ -1,0 +1,195 @@
+#!/system/bin/sh
+# L SPEED MOD
+# Copyright (C) 2015 Paget96
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+mount -o remount,rw /
+mount -o remount,rw rootfs
+mount -o remount,rw /system
+mount -o remount,rw /data
+mount -o remount,rw /cache
+busybox mount -o remount,rw /
+busybox mount -o remount,rw rootfs
+busybox mount -o remount,rw /system
+busybox mount -o remount,rw /data
+busybox mount -o remount,rw /cache
+
+tweaks=/system/etc/L_SPEED
+turn_on=/system/etc/init.d
+divider1="\e[0;100m============================================= \e[00;37;40m" # Black
+divider2="\e[0;101m============================================= \e[00;37;40m" # Red
+divider3="\e[0;102m============================================= \e[00;37;40m" # Green
+divider4="\e[0;103m============================================= \e[00;37;40m" # Yellow
+divider5="\e[0;104m============================================= \e[00;37;40m" # Blue
+divider6="\e[0;105m============================================= \e[00;37;40m" # Purple
+divider7="\e[0;106m============================================= \e[00;37;40m" # Cyan
+divider8="\e[0;107m============================================= \e[00;37;40m" # White
+
+if [ -e $turn_on/LS00Cleaner ]; then
+	cleaner="\e[1;32mOn\e[0m"
+else
+	cleaner="\e[1;31mOff\e[0m"
+fi
+
+busybox clear
+
+busybox echo -e $divider5
+busybox echo ""
+busybox echo " Cleaner Extended Menu"
+busybox echo ""
+busybox echo -e $divider5  
+
+busybox echo ""
+busybox echo -e $divider5
+busybox echo "1. Clean junk now"
+busybox echo "2. Clean app cache"
+busybox echo -e "3. Set cleaner on boot   | $cleaner"
+busybox echo -e $divider5
+busybox echo "4. Wipe cache partition"
+busybox echo "5. Wipe dalvik-cache"
+busybox echo ""
+busybox echo "6. Back to L Speed Wizard"
+busybox echo -e $divider
+busybox echo ""
+busybox echo -n "Please select an option [1-6]: "
+read character
+case $character in
+
+1) busybox clear;
+busybox sleep 1
+busybox echo""
+busybox echo "Cleaning junk started"
+busybox sleep 1
+busybox echo""
+busybox echo "Please wait!!!"
+busybox sleep 3
+sh system/etc/L_SPEED/LS00Cleaner
+busybox echo ""
+busybox echo""
+busybox echo "Everything is done!"
+busybox sleep 3
+LS00Cleaner
+busybox clear ;;
+
+2) busybox clear;
+busybox sleep 1
+busybox echo""
+busybox echo "Cleaning app cache started"
+busybox sleep 1
+busybox echo""
+busybox echo "Please wait!!!"
+busybox sleep 3
+REMOVE_CACHE=1
+if busybox [ $REMOVE_CACHE -eq 1 ]; then
+	CACHE_DIR=(` busybox find / -type d -iname *cache* 2> /dev/null`)
+	for dir in ${CACHE_DIR[*]}; do
+		busybox find $dir -type f -delete 2> /dev/null
+	done
+fi
+busybox echo ""
+busybox echo""
+busybox echo "Everything is done!"
+busybox sleep 3
+LS00Cleaner
+busybox clear ;;
+
+3) busybox clear;
+if [ -e $turn_on/LS00Cleaner ]; then
+	busybox echo "Disabling init.d script..."
+	busybox sleep 1
+	busybox rm $turn_on/LS00Cleaner
+	busybox echo "Done!"
+	busybox echo ""
+	busybox echo "Please reboot your device!!!"
+	busybox sleep 3
+	sh system/bin/LS00Cleaner
+else
+	busybox echo "Enabling init.d script..."
+	busybox sleep 1
+	busybox cp $tweaks/LS00Cleaner $turn_on/LS00Cleaner
+	busybox chmod 755 $turn_on/LS00Cleaner
+	busybox echo "Done!"
+	busybox echo ""
+	busybox echo "Please reboot your device!!!"
+	busybox sleep 3
+	sh system/bin/LS00Cleaner
+fi
+busybox clear ;;
+
+4) busybox clear;
+busybox echo "Wipe cache parttion started..."
+busybox echo ""
+busybox echo ""
+busybox sleep 2
+busybox rm -rf /cache/*
+busybox sleep 5
+	  busybox echo "Cache partition wiped"
+	  busybox echo ""
+busybox echo -n "#Do you want to reboot now..?
+[ Yes = 1 | No = 2 ]: "
+read option
+if [ $option -ne 1 ]; then
+busybox echo ""
+sh system/bin/LS00Cleaner
+else
+	busybox echo ""
+	busybox echo "Rebooting device"
+	busybox echo "3"
+	busybox sleep 1
+	busybox echo "2"
+	busybox sleep 1
+	busybox echo "1"
+	busybox sleep 1
+	reboot
+	busybox sleep 1
+fi
+busybox clear ;;
+
+5) busybox clear;
+busybox echo "Wipe dalvik-cache started..."
+busybox echo ""
+busybox echo ""
+busybox sleep 2
+busybox rm -rf /data/dalvik-cache/*
+busybox sleep 5
+busybox echo "Dalvik-cache wiped"
+busybox echo ""
+busybox echo -n "#Do you want to reboot now..?
+[ Yes = 1 | No = 2 ]: "
+read option
+if [ $option -ne 1 ]; then
+	busybox echo ""
+	sh system/bin/LS00Cleaner
+else
+	busybox echo ""
+	busybox echo "Rebooting device"
+	busybox echo "3"
+	busybox sleep 1
+	busybox echo "2"
+	busybox sleep 1
+	busybox echo "1"
+	busybox sleep 1
+	reboot
+	busybox sleep 1
+fi
+busybox clear ;;
+
+6) busybox clear;
+sh system/bin/LS00Wizard
+busybox clear ;;
+
+*) busybox clear;
+busybox echo "#Exit,Invalid Option"
+busybox sleep 1
+esac
+busybox echo ""
+exit

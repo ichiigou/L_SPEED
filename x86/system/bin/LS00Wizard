@@ -1,0 +1,715 @@
+#!/system/bin/sh
+# L SPEED MOD
+# Copyright (C) 2015 Paget96
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+id=`id`; id=`busybox echo ${id#*=}`; id=`busybox echo ${id%%\(*}`; id=`busybox echo ${id%% *}`
+if [ "$id" != "0" ] && [ "$id" != "root" ]; then
+	busybox sleep 2
+	busybox echo ""
+	busybox echo ""
+	busybox echo "You don't have ROOT..."
+	busybox echo "Please type su first"
+	busybox echo ""
+	busybox sleep 1
+	exit
+fi
+
+
+mount -o remount,rw /
+mount -o remount,rw rootfs
+mount -o remount,rw /system
+busybox mount -o remount,rw /
+busybox mount -o remount,rw rootfs
+busybox mount -o remount,rw /system
+
+# L_wizard
+tweaks=/system/etc/L_SPEED
+turn_on=/system/etc/init.d
+divider1="\e[0;100m============================================= \e[00;37;40m" # Black
+divider2="\e[0;101m============================================= \e[00;37;40m" # Red
+divider3="\e[0;102m============================================= \e[00;37;40m" # Green
+divider4="\e[0;103m============================================= \e[00;37;40m" # Yellow
+divider5="\e[0;104m============================================= \e[00;37;40m" # Blue
+divider6="\e[0;105m============================================= \e[00;37;40m" # Purple
+divider7="\e[0;106m============================================= \e[00;37;40m" # Cyan
+divider8="\e[0;107m============================================= \e[00;37;40m" # White
+
+busybox clear
+
+busybox echo -e $divider5
+busybox echo -e "              \e[1;31m...       ...\e[0m"
+busybox echo -e "               \e[1;31m\ \. ^ ./ /\e[0m"
+busybox echo -e "    Welcome to  \e[1;31m\../ \../\e[0m IZARD"
+busybox echo ""
+busybox echo -e $divider5
+ 
+LEVEL=$(cat /sys/class/power_supply/battery/capacity)
+
+if [ -e /system/xbin/haveged ]; then
+	seeder_profile="\e[1;32mHaveged\e[0m"
+elif [ -e $turn_on/LS00Seeder_light ]; then
+	seeder_profile="\e[1;33mLight\e[0m"
+elif [ -e $turn_on/LS00Seeder_enlarger ]; then
+	seeder_profile="\e[1;35mEnlarger\e[0m"
+elif [ -e $turn_on/LS00Seeder_moderate ]; then
+	seeder_profile="\e[1;36mModerate\e[0m"
+elif [ -e $turn_on/LS00Seeder_aggressive ]; then
+	seeder_profile="\e[1;34mAggressive\e[0m"
+else
+	seeder_profile="\e[1;31mOff\e[0m"
+fi
+
+if [ -e $turn_on/LS00Ram_manager_MT ]; then
+	ram_profile="\e[1;33mMultitasking\e[0m"
+elif [ -e $turn_on/LS00Ram_manager_BL ]; then
+	ram_profile="\e[1;36mBalanced\e[0m"
+elif [ -e $turn_on/LS00Ram_manager_GM ]; then
+	ram_profile="\e[1;34mGaming\e[0m"
+else
+	ram_profile="\e[1;30mDefault\e[0m"
+fi
+
+if [ -e $turn_on/LS00OOM_enabled ]; then
+	oom="\e[1;32mEnabled\e[0m"
+elif [ -e $turn_on/LS00OOM_disabled ]; then
+	oom="\e[1;31mDisabled\e[0m"
+else
+	oom="\e[1;30mDefault\e[0m"
+fi
+
+if [ -e $turn_on/LS00CR_lesser ]; then
+	cr="\e[1;33mLesser\e[0m"
+elif [ -e $turn_on/LS00CR_less ]; then
+	cr="\e[1;36mDLess\e[0m"
+elif [ -e $turn_on/LS00CR_x2 ]; then
+	cr="\e[1;34mx2\e[0m"
+else
+	cr="\e[1;30mDefault\e[0m"
+fi
+
+if [ "`grep ==ADBLOCKER== /system/etc/hosts`" ]; then
+	ad_block="\e[1;32mEnabled\e[0m"
+else
+	ad_block="\e[1;31mDisabled\e[0m"
+fi
+if [ -e $turn_on/LS00SD ]; then
+	sd="\e[1;32mOn\e[0m"
+else
+	sd="\e[1;31mOff\e[0m"
+fi
+if [ -e $turn_on/LS00VM_tweaks ]; then
+	VM_tweaks="\e[1;32mOn\e[0m"
+else
+	VM_tweaks="\e[1;31mOff\e[0m"
+fi
+if [ -e $turn_on/LS00Net_tweaks ]; then
+	net_tweaks="\e[1;32mOn\e[0m"
+else
+	net_tweaks="\e[1;31mOff\e[0m"
+fi
+if [ -e $turn_on/LS00Zipalign ]; then
+	zipalign="\e[1;32mOn\e[0m"
+else
+	zipalign="\e[1;31mOff\e[0m"
+fi
+if [ -e $turn_on/LS00Touch_tweak ]; then
+	touch_tweak="\e[1;32mOn\e[0m"
+else
+	touch_tweak="\e[1;31mOff\e[0m"
+fi
+if [ -e $turn_on/LS00Kernel_panic ]; then
+	kp="\e[1;32mOn\e[0m"
+else
+	kp="\e[1;31mOff\e[0m"
+fi
+if [ -e $turn_on/LS00Kernel_sleepers ]; then
+	ks="\e[1;32mOn\e[0m"
+else
+	ks="\e[1;31mOff\e[0m"
+fi
+if [ -e $turn_on/LS00Kernel_tweaks ]; then
+	kt="\e[1;32mOn\e[0m"
+else
+	kt="\e[1;31mOff\e[0m"
+fi
+if [ -e $turn_on/LS00Kill_google_apps ]; then
+	kga="\e[1;32mOn\e[0m"
+else
+	kga="\e[1;31mOff\e[0m"
+fi
+if [ -e $turn_on/LS00Kill_media_server ]; then
+	kms="\e[1;32mOn\e[0m"
+else
+	kms="\e[1;31mOff\e[0m"
+fi
+if [ -e $turn_on/LS00KSM ]; then
+	ksm="\e[1;32mOn\e[0m"
+else
+	ksm="\e[1;31mOff\e[0m"
+fi
+if [ -e $turn_on/LS00Zram ]; then
+	zrm="\e[1;32mOn\e[0m"
+else
+	zrm="\e[1;31mOff\e[0m"
+fi
+if [ -e $turn_on/LS00IO ]; then
+	io="\e[1;32mOn\e[0m"
+else
+	io="\e[1;31mOff\e[0m"
+fi
+if [ -e $turn_on/LS00GP_services_drainfix ]; then
+	gpsf="\e[1;32mOn\e[0m"
+else
+	gpsf="\e[1;31mOff\e[0m"
+fi
+if [ -e $turn_on/LS00Wifi_sleeper ]; then
+	wifis="\e[1;32mOn\e[0m"
+else
+	wifis="\e[1;31mOff\e[0m"
+fi
+
+busybox echo -e $divider5
+busybox echo ""
+busybox echo "1. Boost now"
+busybox echo "2. FStrim now"
+busybox echo "3. Battery calibration"
+busybox echo "4. Cleaner menu"
+busybox echo "5. Build.prop tweaker"
+busybox echo "6. CPU tuner"
+busybox echo "7. Scheduler"
+busybox echo -e $divider5
+busybox sleep 1
+busybox echo -e "8. Seeder                 | $seeder_profile"
+busybox echo -e "9. RAM manager            | $ram_profile"
+busybox echo -e "10.OOM killer             | $oom"
+busybox echo -e "11.Cache reclaiming       | $cr"
+busybox echo -e $divider5
+busybox sleep 1
+busybox echo -e "12.ADBLOCKER                  | $ad_block"
+busybox echo -e "13.Kernel tweaks              | $kt"
+busybox echo -e "14.Disable kernel panic       | $kp"
+busybox echo -e "15.Disable kernel sleepers    | $ks"
+busybox echo -e "16.Kernel samepage merging    | $ksm"
+busybox echo -e "17.SD tweak                   | $sd"
+busybox echo -e "18.I/O tweak                  | $io"
+busybox echo -e "19.VM tweaks                  | $VM_tweaks"
+busybox echo -e "20.Net tweaks                 | $net_tweaks"
+busybox echo -e "21.Zipalign                   | $zipalign"
+busybox echo -e "22.Touch tweak                | $touch_tweak"
+busybox echo -e "23.Kill Google Apps on boot   | $kga"
+busybox echo -e "24.Kill media server on boot  | $kms"
+busybox echo -e "25.ZRAM                       | $zrm"
+busybox echo -e "26.Google services drain fix  | $gpsf"
+busybox echo -e "27.Wifi sleeper               | $wifis"
+busybox echo -e $divider5
+busybox echo ""
+busybox echo ""
+busybox echo "0. EXIT"
+busybox sleep 1
+busybox echo ""
+busybox echo ""
+busybox echo -n "Please select an option: "
+read option
+
+if [ $option -eq 1 ]; then
+	sh /system/xbin/boost
+	busybox sleep 0.5
+	busybox echo -n "# Go back to Wizard...?
+	[ Yes = 1 | No = 2 ]: "
+	read option
+	if [ $option -ne 1 ]; then
+		busybox echo ""
+		busybox echo ""
+		busybox sleep 1
+		exit
+	else
+		busybox echo ""
+		sh system/bin/LS00Wizard
+		busybox sleep 1
+	fi
+fi
+
+if [ $option -eq 2 ]; then
+	busybox clear
+	busybox sleep 1
+	busybox echo ""
+	busybox echo "Triming cache, please wait..."
+       /system/etc/L_SPEED/00L_STUFF/fstrim -v /cache;
+	busybox sleep 1
+	busybox echo ""
+	busybox echo "Triming data, please wait..."
+       /system/etc/L_SPEED/00L_STUFF/fstrim -v /data;
+	busybox sleep 1
+	busybox echo ""
+	busybox echo "Triming system, please wait"
+       /system/etc/L_SPEED/00L_STUFF/fstrim -v /system;
+	busybox sleep 1
+	busybox echo ""
+	busybox echo "Done !!!"
+	busybox sleep 3
+	sh system/bin/LS00Wizard
+fi
+
+if [ $option -eq 3 ]; then
+	busybox clear
+	busybox echo ""
+	busybox echo "You need full battery..."
+	busybox echo ""
+	busybox sleep 1
+	busybox echo "Checking, please wait..."
+	busybox echo ""
+	busybox sleep 1
+	if [ "$LEVEL" == "100" ] ; then
+		busybox mount -o rw,remount /data
+		busybox sleep 1
+		busybox rm -f /data/system/batterystats.bin
+		busybox echo ""
+		busybox echo ""
+		busybox sleep 2
+		busybox echo ""
+		busybox echo "Your battery is now calibrated.."
+		busybox echo ""
+		busybox echo "Please reboot the device..."
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	else
+		busybox echo ""
+		busybox echo ""
+		busybox sleep 2
+		busybox echo ""
+		busybox echo "Your battery is not fully charged..."
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	fi
+fi
+
+if [ $option -eq 4 ]; then
+	busybox echo "Opening Cleaner menu..."
+	busybox sleep 2
+	sh system/bin/LS00Cleaner
+fi
+
+if [ $option -eq 5 ]; then
+	busybox echo "Opening build.prop tweaker..."
+	busybox sleep 2
+	sh system/bin/LS00build.prop
+fi
+
+if [ $option -eq 6 ]; then
+	busybox echo "Opening CPU tuner..."
+	busybox sleep 2
+	sh system/bin/LS00CPU_tuner
+fi
+
+if [ $option -eq 7 ]; then
+	busybox echo "Opening Scheduler..."
+	busybox sleep 2
+	sh system/bin/LS00Scheduler
+fi
+
+if [ $option -eq 8 ]; then
+	busybox echo "Opening Seeder menu..."
+	busybox sleep 2
+	sh system/bin/LS00Seeder
+fi
+
+if [ $option -eq 9 ]; then
+	busybox echo "Opening RAM manager menu..."
+	busybox sleep 2
+	sh system/bin/LS00Ram_manager
+fi
+
+if [ $option -eq 10 ]; then
+	busybox echo "Opening OOM killer menu..."
+	busybox sleep 2
+	sh system/bin/LS00OOM
+fi
+
+if [ $option -eq 11 ]; then
+	busybox echo "Cache reclaiming menu..."
+	busybox sleep 2
+	sh system/bin/LS00Cache_reclaiming
+fi
+
+if [ $option -eq 12 ]; then
+	if [ "`grep ==ADBLOCKER== /system/etc/hosts`" ]; then
+		busybox echo "Disabling ADBLOCKER..."
+		busybox sleep 1
+		busybox cp /system/etc/L_SPEED/ADBLOCK/no_adblock /system/etc/hosts
+		busybox chmod 644 /system/etc/hosts;
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	else
+		busybox echo "Enabling ADBLOCKER..."
+		busybox sleep 1
+		busybox cp /system/etc/L_SPEED/ADBLOCK/adblock /system/etc/hosts
+		busybox chmod 644 /system/etc/hosts;
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	fi
+fi
+
+if [ $option -eq 13 ]; then
+	if [ -e $turn_on/LS00Kernel_tweaks ]; then
+		busybox echo "Disabling Kernel tweaks.."
+		busybox sleep 1
+		busybox rm $turn_on/LS00Kernel_tweaks
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	else
+		busybox echo "Enabling Kernel tweaks..."
+		busybox sleep 1
+		busybox cp $tweaks/LS00Kernel_tweaks $turn_on/LS00Kernel_tweaks
+		busybox chmod 755 $turn_on/LS00Kernel_tweaks
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	fi
+
+elif [ $option -eq 14 ]; then
+	if [ -e $turn_on/LS00Kernel_panic ]; then
+		busybox echo "Enabling back Kernel panic (enabled is default).."
+		busybox sleep 1
+		busybox rm $turn_on/LS00Kernel_panic
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	else
+		busybox echo "Disabling kernel panic (TWEAKED)"
+		busybox sleep 1
+		busybox cp $tweaks/LS00Kernel_panic $turn_on/LS00Kernel_panic
+		busybox chmod 755 $turn_on/LS00Kernel_panic
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	fi
+
+elif [ $option -eq 15 ]; then
+	if [ -e $turn_on/LS00Kernel_sleepers ]; then
+		busybox echo "Enabling back Kernel sleepers (enabled is default).."
+		busybox sleep 1
+		busybox rm $turn_on/LS00Kernel_sleepers
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	else
+		busybox echo "Disabling kernel sleepers (TWEAKED)"
+		busybox sleep 1
+		busybox cp $tweaks/LS00Kernel_sleepers $turn_on/LS00Kernel_sleepers
+		busybox chmod 755 $turn_on/LS00Kernel_sleepers
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	fi
+
+elif [ $option -eq 16 ]; then
+	if [ -e $turn_on/LS00KSM ]; then
+		busybox echo "Disabling Kernel samepage merging..."
+		busybox sleep 1
+		busybox rm $turn_on/LS00KSM
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	else
+		busybox echo "Enabling Kernel samepage merging..."
+		busybox sleep 1
+		busybox cp $tweaks/LS00KSM $turn_on/LS00KSM
+		busybox chmod 755 $turn_on/LS00KSM
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	fi
+
+elif [ $option -eq 17 ]; then
+	if [ -e $turn_on/LS00SD ]; then
+		busybox echo "Disabling SD tweak..."
+		busybox sleep 1
+		busybox rm $turn_on/LS00SD
+		busybox echo "Done!"
+		busybox sleep 1
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	else
+		busybox sleep 1
+		busybox echo "Enabling SD tweak..."
+		sh $tweaks/LS00SD
+		busybox sleep 1
+		busybox cp $tweaks/LS00SD $turn_on/LS00SD
+		busybox chmod 755 $turn_on/LS00SD
+		busybox echo ""
+		busybox echo "Done!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	fi
+
+elif [ $option -eq 18 ]; then
+	if [ -e $turn_on/LS00IO ]; then
+		busybox echo "Disabling I/O tweak..."
+		busybox sleep 1
+		busybox rm $turn_on/LS00IO
+		busybox echo "Done!"
+		busybox sleep 1
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	else
+		busybox sleep 1
+		busybox echo "Enabling I/O tweak..."
+		busybox sleep 1
+		busybox cp $tweaks/LS00IO $turn_on/LS00IO
+		busybox chmod 755 $turn_on/LS00IO
+		busybox echo ""
+		busybox echo "Done!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	fi
+
+elif [ $option -eq 19 ]; then
+	if [ -e $turn_on/LS00VM_tweaks ]; then
+		busybox echo "Disabling VM tweaks..."
+		busybox sleep 1
+		busybox rm $turn_on/LS00VM_tweaks
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	else
+		busybox echo "Enabling VM tweaks..."
+		busybox sleep 1
+		busybox cp $tweaks/LS00VM_tweaks $turn_on/LS00VM_tweaks
+		busybox chmod 755 $turn_on/LS00VM_tweaks
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	fi
+
+elif [ $option -eq 20 ]; then
+	if [ -e $turn_on/LS00Net_tweaks ]; then
+		busybox echo "Disabling Net tweaks..."
+		busybox sleep 1
+		busybox rm $turn_on/LS00Net_tweaks
+		busybox sleep 1
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	else
+		busybox echo "Enabling Net tweaks..."
+		busybox sleep 1
+		busybox cp $tweaks/LS00Net_tweaks $turn_on/LS00Net_tweaks
+		busybox chmod 755 $turn_on/LS00Net_tweaks
+		busybox sleep 1
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	fi
+
+elif [ $option -eq 21 ]; then
+	if [ -e $turn_on/LS00Zipalign ]; then
+		busybox echo "Disabling Zipalign..."
+		busybox sleep 1
+		busybox rm $turn_on/LS00Zipalign
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	else
+		busybox echo "Enabling Zipalign..."
+		busybox sleep 1
+		busybox cp $tweaks/LS00Zipalign $turn_on/LS00Zipalign
+		busybox chmod 755 $turn_on/LS00Zipalign
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	fi
+
+elif [ $option -eq 22 ]; then
+	if [ -e $turn_on/LS00Touch_tweak ]; then
+		busybox echo "Disabling Touch tweak..."
+		busybox sleep 1
+		busybox rm $turn_on/LS00Touch_tweak
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	else
+		busybox echo "Enabling Touch tweak..."
+		busybox sleep 1
+		busybox cp $tweaks/LS00Touch_tweak $turn_on/LS00Touch_tweak
+		busybox chmod 755 $turn_on/LS00Touch_tweak
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	fi
+
+elif [ $option -eq 23 ]; then
+	if [ -e $turn_on/LS00Kill_google_apps ]; then
+		busybox echo "Disabling KGA on boot..."
+		busybox sleep 1
+		busybox rm $turn_on/LS00Kill_google_apps
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	else
+		busybox echo "Enabling KGA on boot..."
+		busybox sleep 1
+		busybox cp $tweaks/LS00Kill_google_apps $turn_on/LS00Kill_google_apps
+		busybox chmod 755 $turn_on/LS00Kill_google_apps
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	fi
+
+elif [ $option -eq 24 ]; then
+	if [ -e $turn_on/LS00Kill_media_server ]; then
+		busybox echo "Disabling KMS on boot..."
+		busybox sleep 1
+		busybox rm $turn_on/LS00Kill_media_server
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	else
+		busybox echo "Enabling KMS on boot..."
+		busybox sleep 1
+		busybox cp $tweaks/LS00Kill_media_server $turn_on/LS00Kill_media_server
+		busybox chmod 755 $turn_on/LS00Kill_media_server
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	fi
+
+elif [ $option -eq 25 ]; then
+	if [ -e $turn_on/LS00Zram ]; then
+		busybox echo "Disabling Zram..."
+		busybox sleep 1
+		busybox rm $turn_on/LS00Zram
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	else
+		busybox echo "Enabling Zram..."
+		busybox sleep 1
+		busybox cp $tweaks/LS00Zram $turn_on/LS00Zram
+		busybox chmod 755 $turn_on/LS00Zram
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	fi
+
+elif [ $option -eq 26 ]; then
+	if [ -e $turn_on/LS00GP_services_drainfix ]; then
+		busybox echo "Disabling GPS drain fix..."
+		busybox sleep 1
+		busybox rm $turn_on/LS00GP_services_drainfix
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	else
+		busybox echo "Enabling GPS drain fix..."
+		busybox sleep 1
+		busybox cp $tweaks/LS00GP_services_drainfix $turn_on/LS00GP_services_drainfix
+		busybox chmod 755 $turn_on/LS00GP_services_drainfix
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	fi
+
+elif [ $option -eq 27 ]; then
+	if [ -e $turn_on/LS00Wifi_sleeper ]; then
+		busybox echo "Disabling Wifi sleeper..."
+		busybox sleep 1
+		busybox rm $turn_on/LS00Wifi_sleeper
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	else
+		busybox echo "Enabling Wifi sleeper..."
+		busybox sleep 1
+		busybox cp $tweaks/LS00Wifi_sleeper $turn_on/LS00Wifi_sleeper
+		busybox chmod 755 $turn_on/LS00Wifi_sleeper
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00Wizard
+	fi
+
+elif [ $option -eq 0 ]; then
+	busybox echo "Going back to L Speed menu..."
+	busybox sleep 3
+	sh system/bin/LS
+fi
+
+exit
+
+else
+	busybox echo "Invalid option, please try again..."
+	busybox sleep 1
+	sh system/bin/LS00Wizard
+fi

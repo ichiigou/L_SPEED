@@ -1,0 +1,90 @@
+#!/system/bin/sh
+# L SPEED MOD
+# Copyright (C) 2015 Paget96
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+mount -o remount,rw /
+mount -o remount,rw rootfs
+mount -o remount,rw /system
+busybox mount -o remount,rw /
+busybox mount -o remount,rw rootfs
+busybox mount -o remount,rw /system
+
+LS=/system/etc/L_SPEED/00L_STUFF/LOGS/Kernel_tweaks.log
+
+busybox rm -f $LS
+busybox touch $LS
+
+busybox echo "# L Speed log" | tee -a $LS
+busybox echo "" | tee -a $LS
+busybox echo "$( date +"%m-%d-%Y %H:%M:%S" ) Adding kernel tweaks.." | tee -a $LS
+
+busybox sleep 10
+
+# Kernel parameters setup
+mem=`free|grep Mem | awk '{print $2}'`
+totmem=`(echo - | awk -v A=$mem '{print A*1024;}')`
+max=`(echo - | awk -v A=$totmem '{print A*75/100;}')`
+page_size=`cat /proc/sys/kernel/shmmni`
+all=`(echo - | awk -v A=$totmem -v B=$page_size '{print A*80/100/B}')`
+if [ -e /proc/sys/kernel/shmall ]; then 
+	busybox echo $all > /proc/sys/kernel/shmall
+fi
+if [ -e /proc/sys/kernel/shmmax ]; then 
+	busybox echo $max > /proc/sys/kernel/shmmax
+fi
+if [ -e /proc/sys/kernel/sem ]; then 
+	busybox echo "250 32000 100 128" > /proc/sys/kernel/sem
+fi
+if [ -e /proc/sys/kernel/hung_task_timeout_secs ]; then 
+       busybox echo "0" > /proc/sys/kernel/hung_task_timeout_secs
+fi
+if [ -e /proc/sys/kernel/msgmni ]; then 
+       busybox echo "16" > /proc/sys/kernel/msgmni
+fi
+if [ -e /proc/sys/kernel/msgmnb ]; then 
+       busybox echo "16384" > /proc/sys/kernel/msgmnb
+fi
+if [ -e /proc/sys/kernel/msgmax ]; then 
+       busybox echo "8192" > /proc/sys/kernel/msgmax
+fi
+
+#FS tweak
+if [ -e /proc/sys/fs/lease-break-time ]; then 
+	busybox echo "10" > /proc/sys/fs/lease-break-time
+fi
+if [ -e /proc/sys/fs/inotify/max_queued_events ]; then 
+	busybox echo "32000" > /proc/sys/fs/inotify/max_queued_events
+fi
+if [ -e /proc/sys/fs/inotify/max_user_instances ]; then 
+	busybox echo "256" > /proc/sys/fs/inotify/max_user_instances
+fi
+if [ -e /proc/sys/fs/inotify/max_user_watches ]; then 
+	busybox echo "10240" > /proc/sys/fs/inotify/max_user_watches
+fi
+# For next part of fs tweaks thanks to @BlackGunZ
+if [ "$mem" -lt 512000 ]; then
+	if [ -e /proc/sys/fs/file-max ]; then
+		busybox echo "32768" > /proc/sys/fs/file-max
+	fi
+elif [ "$mem" -lt 768000 ]; then
+	if [ -e /proc/sys/fs/file-max ]; then
+		busybox echo "49152" > /proc/sys/fs/file-max
+	fi
+else
+	if [ -e /proc/sys/fs/file-max ]; then
+		busybox echo "65536" > /proc/sys/fs/file-max
+	fi
+fi
+
+busybox echo "" | tee -a $LS
+busybox echo "$( date +"%m-%d-%Y %H:%M:%S" ) Kernel tweaks added" | tee -a $LS

@@ -1,0 +1,15 @@
+#!/system/bin/sh
+
+. /system/etc/cron/cron.conf
+
+if test $DAILY_DROP_CACHES -eq 1; then
+	sync
+	busybox sleep 1
+	busybox echo "3" > /proc/sys/vm/drop_caches
+	busybox sleep 1
+	dc=/proc/sys/vm/drop_caches
+	dc_v=`cat $dc`
+	if [ "$dc_v" -gt 1 ]; then
+		busybox echo "1" > /proc/sys/vm/drop_caches
+	fi
+fi

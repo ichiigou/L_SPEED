@@ -1,0 +1,277 @@
+#!/system/bin/sh
+# L SPEED MOD
+# Copyright (C) 2015 Paget96
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+busybox clear
+busybox echo "V1.0 REBORN (initial release)"
+busybox echo ""
+busybox echo ""
+busybox sleep 1
+busybox echo "V1.1 REBORN"
+busybox echo "-Optimized"
+busybox echo "-New VM values"
+busybox echo "-Added Enable all in L Speed wizard"
+busybox echo ""
+busybox echo ""
+busybox sleep 1
+busybox echo "V1.2 REBORN"
+busybox echo "Changes in net tweaks"
+busybox echo "VM for 256,512,768,1024 and 1024+ devices"
+busybox echo "Fixed Set Seeder on boot"
+busybox echo ""
+busybox echo ""
+busybox sleep 1
+busybox echo "V1.3 REBORN"
+busybox echo "Changes in net tweaks"
+busybox echo "New minfree"
+busybox echo "Removed 256mb device support"
+busybox echo "Added some cool things at L Speed menu"
+busybox echo "Cleaner updated"
+busybox echo "Changes in vm tweaks"
+busybox echo "Added Touch tweak"
+busybox echo "Added flag tuner by Pizza_dox"
+busybox echo ""
+busybox echo ""
+busybox sleep 1
+busybox echo "V1.4 REBORN"
+busybox echo "Fixed SD tweak"
+busybox echo "Fixed uninstaller"
+busybox echo "Changed VM values for 512mb and 1gb devices"
+busybox echo "Added new option in L Speed menu (system information)"
+busybox echo "Flag tuner name changed in build.prop tweaks (more options)"
+busybox echo ""
+busybox echo ""
+busybox sleep 1
+busybox echo "V1.5 REBORN"
+busybox echo "Added ram profiles"
+busybox echo "Added seeder profiles"
+busybox echo "Added SD cache profiles"
+busybox echo "Added KSM"
+busybox echo "Added new gps.conf"
+busybox echo "Added Kernel_sched_features"
+busybox echo "Added Kill media server on boot"
+busybox echo "Changed VM values only for 1gb devices (used from v1.3)"
+busybox echo "Host file added"
+busybox echo "Fixed net tweaks"
+busybox echo "Little visual changes in WIZARD"
+busybox echo "Users don't need to reboot device after change profile for SD tweak and Ram manager"
+busybox echo "Changes in VM"
+busybox echo "Added drop cache when changing RAM profiles"
+busybox echo "Removed build.prop tweaks"
+busybox echo "Added trim now"
+busybox echo "Added BOOST NOW"
+busybox echo "Net tweaks disabled by default"
+busybox echo "Added misc option an L Speed menu"
+busybox echo "Added option for wiping dalvik cache"
+busybox echo "Added option for wiping cache"
+busybox echo "Added ADBLOCKER"
+busybox echo "New minfree Multitasking value for 512mb RAM devices"
+busybox echo "Permission fixes"
+busybox echo "Kernel sched features expanded into kernel tweaks, more tweaks added"
+busybox echo "Sd tweak updated"
+busybox echo "Little changes in Ram manager"
+busybox echo "VM tweaks updated"
+busybox echo "Cleaner updated"
+busybox echo "Wizard little organized"
+busybox echo "SD tweak finaly fixed and set cache values calculated by your device ram"
+busybox echo "Kernel tweaks became menu"
+busybox echo ""
+busybox echo ""
+busybox sleep 1
+busybox echo "V1.6 REBORN"
+busybox echo "Better RAM management"
+busybox echo "ADBLOCKER updated with new host source"
+busybox echo "Added 256mb support in VM tweaks"
+busybox echo "Added DNSmasq"
+busybox echo "You can boost device by typing su, then boost"
+busybox echo "Fixed Cleaners switch problem"
+busybox echo "Kernel tweaks update"
+busybox echo ""
+busybox echo ""
+busybox sleep 1
+busybox echo "V1.7 REBORN"
+busybox echo "Added EXT4 tweak"
+busybox echo "VM changes"
+busybox echo "Touch tweak disabled by default"
+busybox echo "Logs removed from /data, now you can find it in /system/etc/L_SPEED/00L_STUFF/LOGS. Reason why I changed this:"
+busybox echo "1. More organized"
+busybox echo "2. Because of build.prop backup"
+busybox echo "Battery drain fix"
+busybox echo "Host file updated"
+busybox echo "Fixed flag tuner, build.prop backup is in /system/build.prop"
+busybox echo "Added cleaner menu and clean now button"
+busybox echo "Wipe cache&dalvik-cache option moved from Misc to cleaners menu"
+busybox echo "New seeder entropy generator"
+busybox echo "Touch tweak fixed"
+busybox echo "New kernel tweaks added for battery save"
+busybox echo "Added governor tweaks"
+busybox echo "Added option to clean app cache (only from /data)"
+busybox echo "Removed wiping cache while flashing"
+busybox echo ""
+busybox echo ""
+busybox sleep 1
+busybox echo "V1.8 REBORN"
+busybox echo "Added build.prop tweaker"
+busybox echo "Added battery calibration"
+busybox echo "Added improve image quality tweak"
+busybox echo "Improve battery tweak updated (build.prop)"
+busybox echo "gps.conf removed from the mod"
+busybox echo "Kernel tweaks updated"
+busybox echo "Mountung system RW fixed"
+busybox echo "Adblocker menu removed, now just option(mod optimization)"
+busybox echo "Removed uninstaller file (merged with LS menu)"
+busybox echo "Net tweaks updated (buffers added)"
+busybox echo "Better image quality updated (build.prop)"
+busybox echo "Added faster streaming (build.prop)"
+busybox echo "Cleaner updated (script now wipe all app cache)"
+busybox echo "Added option for going to xda thred of L Speed"
+busybox echo "Fixed menu coloring"
+busybox echo "Host file updated"
+busybox echo "Build.prop tweaker fixed"
+busybox echo "New seeder"
+busybox echo ""
+busybox echo ""
+busybox sleep 1
+busybox echo "V1.9 REBORN"
+busybox echo "Added liquid smooth UI (build.prop)"
+busybox echo "Seeder edited and added extreme profile"
+busybox echo "Ram manager edited"
+busybox echo "Zram fixed"
+busybox echo "Added Dalvik tweaks (build.prop)"
+busybox echo "Added processor info and max freq into device information (misc options)"
+busybox echo "Cleaner edited (it will ask ||do you want to reboot now|| after deleting cache or dalvik-cache"
+busybox echo "Governor tweaks updated (changed parameters for ondemand, ondemandX, Conservative, and added presets for new governors lulzactive and smartassV2)"
+busybox echo "Fixed updater script, problem with line EXT4 TWEAK"
+busybox echo "Kernel tweaks syntax error fixed and updated"
+busybox echo "Ram manager dropping cache fixed. thanks to @NAZUlimited he saw mistake"
+busybox echo "Dalvik tweaks(build.prop) printing changed, thanks to @berryman13 for suggestion"
+busybox echo "VM tweaks reverted back from test4 and automated, thanks to @K1ks for scaling script"
+busybox echo "SD tweak updated"
+busybox echo "Battery life imprvement"
+busybox echo "Added cron, thanks to @JRummy16 and @ArjunrambZ"
+busybox echo "Auto zipalign every 24h"
+busybox echo "Auto cleaning every 24h"
+busybox echo "Auto drop cache every 1h (feature disabled because of performance drop and request from CPU to run at high state)"
+busybox echo "Slightly performance boost"
+busybox echo "Seeder aggressive profile set on by default"
+busybox echo "Ram manager balanced profile set on by default"
+busybox echo "Added smartmax governor tweak thanks to @berryman13"
+busybox echo "Removed dropping cache when changing ram profile"
+busybox echo "Removed openVPN from mod"
+busybox echo ""
+busybox echo ""
+busybox sleep 1
+busybox echo "V2.0 REVOLUTION"
+busybox echo "Kernel tweaks updated"
+busybox echo "VM tweaks updated"
+busybox echo "Updater-script printing changed"
+busybox echo "Added some things when applying SD tweak"
+busybox echo "Added to uninstaller to remove Net tweaks from build.prop"
+busybox echo "Added L SPEED TWEAKS(build.prop)"
+busybox echo "DNS removed from mod"
+busybox echo "VM tweaks updated"
+busybox echo "Ram manager updated"
+busybox echo "Host file updated"
+busybox echo "IO and SD tweak separated"
+busybox echo "Updated Improve battery tweak (build.prop)"
+busybox echo "L Speed weaks updated (build.prop)"
+busybox echo "Net tweaks updated (added GOOGLE DNS)"
+busybox echo "Little mod organization (easier for me ;) )"
+busybox echo "LS wizard change (boost launch from file) [merging mod]"
+busybox echo "Added haveged seeder engine."
+busybox echo ""
+busybox echo ""
+busybox sleep 1
+busybox echo "V2.1 REVOLUTION"
+busybox echo "Enlarger seeder profile set as default
+Optimization for battery life
+Optimization for performance
+Added CPU tuner
+Kernel panic fixed
+Kernel sleepers fixed
+Added Google play services drain fix option
+Build.prop tweaker fixed
+Added wifi sleeper in L Wizard
+Cleaner fixed (no more bad printing)
+I/O tweaks updated
+Printings changed in Wizard
+UI redesigned
+Improve battery(build.prop) updated
+Net tweaks updated
+Theme engine added (change mod UI color)
+L Speed tweaks(build.prop) updated
+  -removed ril tweaks
+Added backup&restore
+Fixed some little stuff
+Uninstaller fixed
+Added Disable logcat (build.prop)"
+busybox echo ""
+busybox echo ""
+busybox sleep 1
+busybox echo "V2.2 REVOLUTION"
+busybox echo "Ram manager updated
+Uninstaller updated (remove adblock fix)
+IO Tweak updated
+Busybox added into mod, users don't needed to update anymore
+Removed dalvik tweaks from L Speed tweaks (build.prop) and option can be enabled or disabled
+Fixed exit button on Themer engine
+Updated Improve scrolling (build.prop)
+Fixed sed command on Disable logcat (build.prop)
+Liquid UI updated (build.prop)
+Added gaming mod tweaks (build.prop)
+L Speed code rewriten, thanks to @Crip7ic for help
+Little cron fixes
+VM tweaks updated
+SD tweak updated
+Disable journaling removed
+VM tweaks updated (battery life improvements)
+Fixed permissions
+Fixed Restore.sh script
+L Speed tweaks moved to first place (build.prop)"
+busybox echo ""
+busybox echo ""
+busybox sleep 1
+busybox echo "V2.3 REVOLUTION"
+busybox echo "Kernel tweaks updated
+VM Tweaks updated
+IO tweak updated
+Net tweak updated and set enabled by default
+Faster  boot updated (build.prop)
+Added Disable/enable fast dormancy (build.prop)
+Fast dormancy fixed
+SD tweak fixed
+ADBLOCKER updated (new host file)
+Ram profiles updated
+Added RW to kernel/debug
+Fixed disabling black screen issue
+No boot animation removed (fast boot, build.prop)
+Mod slimed
+Kernel samepage merging added
+Auto fstrim set to daily
+Auto cleaner set to weekly
+Added scheduler
+Themer engine updated
+KSM fixed and values updated
+Removed setup for devices with 256 and less ram they will use setup for 512mb of ram
+Improve battery (build.prop) updated,now cpu is still 
+on, but put into low power mode
+Kernel panic and sleepers are separated from kernel tweaks
+Kernel msg files tweaked
+L Speed wizard little reorganisation
+LMK cost changed to 8
+Added OOM killer
+Backup&restore updated
+Min free kbytes changrd to 2048 (default)"
+busybox echo ""
+busybox echo ""
+busybox sleep 1

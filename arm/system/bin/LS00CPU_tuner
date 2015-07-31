@@ -1,0 +1,152 @@
+#!/system/bin/sh
+# L SPEED MOD
+# Copyright (C) 2015 Paget96
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+mount -o remount,rw /
+mount -o remount,rw rootfs
+mount -o remount,rw /system
+busybox mount -o remount,rw /
+busybox mount -o remount,rw rootfs
+busybox mount -o remount,rw /system
+
+# Variables
+tweaks=/system/etc/L_SPEED/CPU
+turn_on=/system/etc/init.d
+divider1="\e[0;100m============================================= \e[00;37;40m" # Black
+divider2="\e[0;101m============================================= \e[00;37;40m" # Red
+divider3="\e[0;102m============================================= \e[00;37;40m" # Green
+divider4="\e[0;103m============================================= \e[00;37;40m" # Yellow
+divider5="\e[0;104m============================================= \e[00;37;40m" # Blue
+divider6="\e[0;105m============================================= \e[00;37;40m" # Purple
+divider7="\e[0;106m============================================= \e[00;37;40m" # Cyan
+divider8="\e[0;107m============================================= \e[00;37;40m" # White
+
+
+busybox clear
+
+busybox echo -e $divider5
+busybox echo ""
+busybox echo "        Welcome to CPU tuner"
+busybox echo ""
+busybox echo -e $divider5
+
+id=`id`; id=`busybox echo ${id#*=}`; id=`busybox echo ${id%%\(*}`; id=`busybox echo ${id%% *}`
+if [ "$id" != "0" ] && [ "$id" != "root" ]; then
+	busybox sleep 2
+	busybox echo -e $divider5
+	busybox echo ""
+	busybox echo "You don't have ROOT..."
+	busybox echo ""
+	busybox echo -e $divider5
+	busybox sleep 1
+	exit
+fi
+
+if [ -e $turn_on/LS00CPU ]; then
+	cpus="\e[1;32mOn\e[0m"
+else
+	cpus="\e[1;31mOff\e[0m"
+fi
+if [ -e $turn_on/LS00Gov_tweak ]; then
+	gov="\e[1;32mOn\e[0m"
+else
+	gov="\e[1;31mOff\e[0m"
+fi
+
+busybox echo -e $divider5
+busybox echo ""
+busybox echo -e "1. Multicore energy saver      | $cpus"
+busybox echo -e "2. Governor tweaks             | $gov"
+busybox echo -e $divider5
+busybox echo ""
+busybox echo ""
+busybox echo "0. EXIT"
+busybox sleep 1
+busybox echo ""
+busybox echo ""
+busybox echo -n "Please select an option: "
+read option
+
+if [ $option -eq 1 ]; then
+	if [ -e $turn_on/LS00CPU ]; then
+		busybox echo "Disabling init.d script..."
+		busybox sleep 1
+		busybox rm $turn_on/LS00CPU
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00CPU_tuner
+	else
+		busybox echo "Enabling init.d script..."
+		busybox sleep 1
+		busybox cp $tweaks/LS00CPU $turn_on/LS00CPU
+		busybox chmod 755 $turn_on/LS00CPU
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00CPU_tuner
+	fi
+
+elif [ $option -eq 2 ]; then
+	if [ -e $turn_on/LS00Gov_tweak ]; then
+		busybox echo "Disabling init.d script..."
+		busybox sleep 1
+		busybox rm $turn_on/LS00Gov_tweak
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00CPU_tuner
+	else
+		busybox echo "This option will tweak next governors"
+		busybox echo ""
+		busybox sleep 0.5
+		busybox echo "abyssplug"
+		busybox echo ""
+		busybox echo "Hotplug"
+		busybox sleep 1
+		busybox echo "Pegasusq"
+		busybox echo ""
+		busybox echo "Conservative"
+		busybox sleep 1
+		busybox echo "OndemandX"
+		busybox echo ""
+		busybox echo "Ondemand"
+		busybox sleep 1
+		busybox echo "lulzactive"
+		busybox echo ""
+		busybox echo "smartassV2"
+		busybox sleep 1
+		busybox echo "smartmax"
+		busybox sleep 1
+		busybox echo "Interactive"
+		busybox echo ""
+		busybox sleep 0.5
+		busybox echo "Enabling init.d script..."
+		busybox sleep 1
+		busybox cp $tweaks/LS00Gov_tweak $turn_on/LS00Gov_tweak
+		busybox chmod 755 $turn_on/LS00Gov_tweak
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		sh system/bin/LS00CPU_tuner
+	fi
+
+elif [ $option -eq 0 ]; then
+	busybox echo "Going back to L Wizard..."
+	busybox sleep 3
+	sh system/bin/LS00Wizard
+fi

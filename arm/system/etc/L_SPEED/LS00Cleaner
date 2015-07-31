@@ -1,0 +1,109 @@
+#!/system/bin/sh
+# L SPEED MOD
+# Copyright (C) 2015 Paget96
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+mount -o remount,rw /
+mount -o remount,rw rootfs
+mount -o remount,rw /system
+mount -o remount,rw /data
+mount -o remount,rw /cache
+busybox mount -o remount,rw /
+busybox mount -o remount,rw rootfs
+busybox mount -o remount,rw /system
+busybox mount -o remount,rw /data
+busybox mount -o remount,rw /cache
+
+
+LS=/system/etc/L_SPEED/00L_STUFF/LOGS/Cleaner.log
+
+busybox rm -f $LS
+busybox touch $LS
+
+busybox echo "# L Speed log" | tee -a $LS
+busybox echo "" | tee -a $LS
+busybox echo "$( date +"%m-%d-%Y %H:%M:%S" ) Cleaner script is running..." | tee -a $LS
+
+busybox sleep 10
+
+# cleaner
+busybox rm -f /cache/*.apk 2 > /dev/null
+busybox rm -f /cache/*.tmp 2 > /dev/null
+busybox rm -f /cache/*.log 2 > /dev/null
+busybox rm -f /cache/*.txt 2 > /dev/null
+busybox rm -f /cache/recovery/* 2 > /dev/null
+busybox rm -f /data/*.log 2 > /dev/null
+busybox rm -f /data/*.txt 2 > /dev/null
+busybox rm -f /data/anr/*.log 2 > /dev/null
+busybox rm -f /data/anr/*.txt 2 > /dev/null
+busybox rm -f /data/backup/pending/*.tmp 2 > /dev/null
+busybox rm -f /data/cache/*.* 2 > /dev/null
+busybox rm -f /data/dalvik-cache/*.apk 2 > /dev/null
+busybox rm -f /data/dalvik-cache/*.tmp 2 > /dev/null
+busybox rm -f /data/dalvik-cache/*.log 2 > /dev/null
+busybox rm -f /data/dalvik-cache/*.txt 2 > /dev/null
+busybox rm -f /data/data/*.log 2 > /dev/null
+busybox rm -f /data/data/*.txt 2 > /dev/null
+busybox rm -f /data/log/*.log 2 > /dev/null
+busybox rm -f /data/log/*.txt 2 > /dev/null
+busybox rm -f /data/local/*.apk 2 > /dev/null
+busybox rm -f /data/local/*.log 2 > /dev/null
+busybox rm -f /data/local/*.txt 2 > /dev/null
+busybox rm -f /data/local/tmp/*.log 2 > /dev/null
+busybox rm -f /data/local/tmp/*.txt 2 > /dev/null
+busybox rm -f /data/last_alog/*.log 2 > /dev/null
+busybox rm -f /data/last_alog/*.txt 2 > /dev/null
+busybox rm -f /data/last_kmsg/*.log 2 > /dev/null
+busybox rm -f /data/last_kmsg/*.txt 2 > /dev/null
+busybox rm -f /data/mlog/* 2 > /dev/null
+busybox rm -f /data/tombstones/*.log 2 > /dev/null
+busybox rm -f /data/tombstones/*.txt 2 > /dev/null
+busybox rm -f /data/system/*.log 2 > /dev/null
+busybox rm -f /data/system/*.txt 2 > /dev/null
+busybox rm -f /data/system/dropbox/*.log 2 > /dev/null
+busybox rm -f /data/system/dropbox/*.txt 2 > /dev/null
+busybox rm -f /data/system/usagestats/*.log 2 > /dev/null
+busybox rm -f /data/system/usagestats/*.txt 2 > /dev/null
+busybox rm -rf /sd*/LOST.DIR 2 > /dev/null
+
+export sampling_rate=10000
+export up_threshold=80
+
+busybox echo "memory cleaner--------[OK]" | tee -a $LS
+
+if [ -e /data/anr/*.* ]; then
+	busybox echo "-anr not cleaned" | tee -a $LS
+else
+	busybox echo "-anr cleaned" | tee -a $LS
+fi
+if [ -e /data/local/tmp/*.* ]; then
+	busybox echo "-local/tmp not cleaned" | tee -a $LS else
+	busybox echo "-local/tmp cleaned" | tee -a $LS
+fi
+if [ -e /data/cache/*.* ]; then
+	busybox echo "-cache not cleaned" | tee -a $LS
+else
+	busybox echo "-cache cleaned" | tee -a $LS
+fi
+if [ -e /data/last_log/*.* ]; then
+	busybox echo "-log not cleaned" | tee -a $LS
+else
+	busybox echo "-log cleaned" | tee -a $LS
+fi
+if [ -e /data/tombstones/*.* ]; then
+	busybox echo "-tombstones not cleaned" | tee -a $LS
+else
+	busybox echo "-tombstones cleaned" | tee -a $LS
+fi
+
+busybox echo "" | tee -a $LS
+busybox echo "$( date +"%m-%d-%Y %H:%M:%S" ) All junk directories are now cleaned,Thanks to -CALIBAN666@XDA-!" | tee -a $LS

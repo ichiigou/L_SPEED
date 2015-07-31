@@ -1,0 +1,227 @@
+#!/system/bin/sh
+# L SPEED MOD
+# Copyright (C) 2015 Paget96
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+mount -o remount,rw /
+mount -o remount,rw rootfs
+mount -o remount,rw /system
+busybox mount -o remount,rw /
+busybox mount -o remount,rw rootfs
+busybox mount -o remount,rw /system
+
+
+busybox clear
+
+busybox echo ""
+busybox echo ""
+busybox echo " Theme engine"
+busybox echo ""
+busybox echo ""
+busybox echo ""
+busybox echo ""
+busybox echo "-Choose theme:"
+busybox echo ""
+busybox echo -e "   1. Black     \e[0;100m   \e[00;37;40m"
+busybox echo -e "   2. Red       \e[0;101m   \e[00;37;40m"
+busybox echo -e "   3. Green     \e[0;102m   \e[00;37;40m"
+busybox echo -e "   4. Yellow    \e[0;103m   \e[00;37;40m"
+busybox echo -e "   5. Blue      \e[0;104m   \e[00;37;40m"
+busybox echo -e "   6. Purple    \e[0;105m   \e[00;37;40m"
+busybox echo -e "   7. Cyan      \e[0;106m   \e[00;37;40m"
+busybox echo -e "   8. White     \e[0;107m   \e[00;37;40m"
+busybox echo ""
+busybox echo ""
+busybox echo "9. Back to Main menu"
+busybox echo ""
+busybox echo -n "Please select an option [1-9]: "
+read character
+case $character in
+
+1) busybox clear;
+busybox echo "Changing theme to Black..."
+busybox sleep 1
+busybox sed -i '/$divider/c\busybox echo -e $divider1' /system/bin/LS
+busybox sed -i '/$divider/c\busybox echo -e $divider1' /system/bin/LS00build.prop
+busybox sed -i '/$divider/c\busybox echo -e $divider1' /system/bin/LS00Cache_reclaiming
+busybox sed -i '/$divider/c\busybox echo -e $divider1' /system/bin/LS00Cleaner
+busybox sed -i '/$divider/c\busybox echo -e $divider1' /system/bin/LS00CPU_tuner
+busybox sed -i '/$divider/c\busybox echo -e $divider1' /system/bin/LS00Misc
+busybox sed -i '/$divider/c\busybox echo -e $divider1' /system/bin/LS00OOM
+busybox sed -i '/$divider/c\busybox echo -e $divider1' /system/bin/LS00Ram_manager
+busybox sed -i '/$divider/c\busybox echo -e $divider1' /system/bin/LS00Scheduler
+busybox sed -i '/$divider/c\busybox echo -e $divider1' /system/bin/LS00Seeder
+busybox sed -i '/$divider/c\busybox echo -e $divider1' /system/bin/LS00Wizard
+busybox echo ""
+busybox echo ""
+busybox echo "Theme is changed"
+busybox sleep 3
+LS00Theme
+busybox clear ;;
+
+2) busybox clear;
+busybox echo "Changing theme to Red..."
+busybox sleep 1
+busybox sed -i '/$divider/c\busybox echo -e $divider2' /system/bin/LS
+busybox sed -i '/$divider/c\busybox echo -e $divider2' /system/bin/LS00build.prop
+busybox sed -i '/$divider/c\busybox echo -e $divider2' /system/bin/LS00Cache_reclaiming
+busybox sed -i '/$divider/c\busybox echo -e $divider2' /system/bin/LS00Cleaner
+busybox sed -i '/$divider/c\busybox echo -e $divider2' /system/bin/LS00CPU_tuner
+busybox sed -i '/$divider/c\busybox echo -e $divider2' /system/bin/LS00Misc
+busybox sed -i '/$divider/c\busybox echo -e $divider2' /system/bin/LS00OOM
+busybox sed -i '/$divider/c\busybox echo -e $divider2' /system/bin/LS00Ram_manager
+busybox sed -i '/$divider/c\busybox echo -e $divider2' /system/bin/LS00Scheduler
+busybox sed -i '/$divider/c\busybox echo -e $divider2' /system/bin/LS00Seeder
+busybox sed -i '/$divider/c\busybox echo -e $divider2' /system/bin/LS00Wizard
+busybox echo ""
+busybox echo ""
+busybox echo "Theme is changed"
+busybox sleep 3
+LS00Theme
+busybox clear ;;
+
+3) busybox clear;
+busybox echo "Changing theme to Green..."
+busybox sleep 1
+busybox sed -i '/$divider/c\busybox echo -e $divider3' /system/bin/LS
+busybox sed -i '/$divider/c\busybox echo -e $divider3' /system/bin/LS00build.prop
+busybox sed -i '/$divider/c\busybox echo -e $divider3' /system/bin/LS00Cache_reclaiming
+busybox sed -i '/$divider/c\busybox echo -e $divider3' /system/bin/LS00Cleaner
+busybox sed -i '/$divider/c\busybox echo -e $divider3' /system/bin/LS00CPU_tuner
+busybox sed -i '/$divider/c\busybox echo -e $divider3' /system/bin/LS00Misc
+busybox sed -i '/$divider/c\busybox echo -e $divider3' /system/bin/LS00OOM
+busybox sed -i '/$divider/c\busybox echo -e $divider3' /system/bin/LS00Ram_manager
+busybox sed -i '/$divider/c\busybox echo -e $divider3' /system/bin/LS00Scheduler
+busybox sed -i '/$divider/c\busybox echo -e $divider3' /system/bin/LS00Seeder
+busybox sed -i '/$divider/c\busybox echo -e $divider3' /system/bin/LS00Wizard
+busybox echo ""
+busybox echo ""
+busybox echo "Theme is changed"
+busybox sleep 3
+LS00Theme
+busybox clear ;;
+
+4) busybox clear;
+busybox echo "Changing theme to Yellow..."
+busybox sleep 1
+busybox sed -i '/$divider/c\busybox echo -e $divider4' /system/bin/LS
+busybox sed -i '/$divider/c\busybox echo -e $divider4' /system/bin/LS00build.prop
+busybox sed -i '/$divider/c\busybox echo -e $divider4' /system/bin/LS00Cache_reclaiming
+busybox sed -i '/$divider/c\busybox echo -e $divider4' /system/bin/LS00Cleaner
+busybox sed -i '/$divider/c\busybox echo -e $divider4' /system/bin/LS00CPU_tuner
+busybox sed -i '/$divider/c\busybox echo -e $divider4' /system/bin/LS00Misc
+busybox sed -i '/$divider/c\busybox echo -e $divider4' /system/bin/LS00OOM
+busybox sed -i '/$divider/c\busybox echo -e $divider4' /system/bin/LS00Ram_manager
+busybox sed -i '/$divider/c\busybox echo -e $divider4' /system/bin/LS00Scheduler
+busybox sed -i '/$divider/c\busybox echo -e $divider4' /system/bin/LS00Seeder
+busybox sed -i '/$divider/c\busybox echo -e $divider4' /system/bin/LS00Wizard
+busybox echo ""
+busybox echo ""
+busybox echo "Theme is changed"
+busybox sleep 3
+LS00Theme
+busybox clear ;;
+
+5) busybox clear;
+busybox echo "Changing theme to Blue..."
+busybox sleep 1
+busybox sed -i '/$divider/c\busybox echo -e $divider5' /system/bin/LS
+busybox sed -i '/$divider/c\busybox echo -e $divider5' /system/bin/LS00build.prop
+busybox sed -i '/$divider/c\busybox echo -e $divider5' /system/bin/LS00Cache_reclaiming
+busybox sed -i '/$divider/c\busybox echo -e $divider5' /system/bin/LS00Cleaner
+busybox sed -i '/$divider/c\busybox echo -e $divider5' /system/bin/LS00CPU_tuner
+busybox sed -i '/$divider/c\busybox echo -e $divider5' /system/bin/LS00Misc
+busybox sed -i '/$divider/c\busybox echo -e $divider5' /system/bin/LS00OOM
+busybox sed -i '/$divider/c\busybox echo -e $divider5' /system/bin/LS00Ram_manager
+busybox sed -i '/$divider/c\busybox echo -e $divider5' /system/bin/LS00Scheduler
+busybox sed -i '/$divider/c\busybox echo -e $divider5' /system/bin/LS00Seeder
+busybox sed -i '/$divider/c\busybox echo -e $divider5' /system/bin/LS00Wizard
+busybox echo ""
+busybox echo ""
+busybox echo "Theme is changed"
+busybox sleep 3
+LS00Theme
+busybox clear ;;
+
+6) busybox clear;
+busybox echo "Changing theme to Purple..."
+busybox sleep 1
+busybox sed -i '/$divider/c\busybox echo -e $divider6' /system/bin/LS
+busybox sed -i '/$divider/c\busybox echo -e $divider6' /system/bin/LS00build.prop
+busybox sed -i '/$divider/c\busybox echo -e $divider6' /system/bin/LS00Cache_reclaiming
+busybox sed -i '/$divider/c\busybox echo -e $divider6' /system/bin/LS00Cleaner
+busybox sed -i '/$divider/c\busybox echo -e $divider6' /system/bin/LS00CPU_tuner
+busybox sed -i '/$divider/c\busybox echo -e $divider6' /system/bin/LS00Misc
+busybox sed -i '/$divider/c\busybox echo -e $divider6' /system/bin/LS00OOM
+busybox sed -i '/$divider/c\busybox echo -e $divider6' /system/bin/LS00Ram_manager
+busybox sed -i '/$divider/c\busybox echo -e $divider6' /system/bin/LS00Scheduler
+busybox sed -i '/$divider/c\busybox echo -e $divider6' /system/bin/LS00Seeder
+busybox sed -i '/$divider/c\busybox echo -e $divider6' /system/bin/LS00Wizard
+busybox echo ""
+busybox echo ""
+busybox echo "Theme is changed"
+busybox sleep 3
+LS00Theme
+busybox clear ;;
+
+7) busybox clear;
+busybox echo "Changing theme to Cyan..."
+busybox sleep 1
+busybox sed -i '/$divider/c\busybox echo -e $divider7' /system/bin/LS
+busybox sed -i '/$divider/c\busybox echo -e $divider7' /system/bin/LS00build.prop
+busybox sed -i '/$divider/c\busybox echo -e $divider7' /system/bin/LS00Cache_reclaiming
+busybox sed -i '/$divider/c\busybox echo -e $divider7' /system/bin/LS00Cleaner
+busybox sed -i '/$divider/c\busybox echo -e $divider7' /system/bin/LS00CPU_tuner
+busybox sed -i '/$divider/c\busybox echo -e $divider7' /system/bin/LS00Misc
+busybox sed -i '/$divider/c\busybox echo -e $divider7' /system/bin/LS00OOM
+busybox sed -i '/$divider/c\busybox echo -e $divider7' /system/bin/LS00Ram_manager
+busybox sed -i '/$divider/c\busybox echo -e $divider7' /system/bin/LS00Scheduler
+busybox sed -i '/$divider/c\busybox echo -e $divider7' /system/bin/LS00Seeder
+busybox sed -i '/$divider/c\busybox echo -e $divider7' /system/bin/LS00Wizard
+busybox echo ""
+busybox echo ""
+busybox echo "Theme is changed"
+busybox sleep 3
+LS00Theme
+busybox clear ;;
+
+8) busybox clear;
+busybox echo "Changing theme to White..."
+busybox sleep 1
+busybox sed -i '/$divider/c\busybox echo -e $divider8' /system/bin/LS
+busybox sed -i '/$divider/c\busybox echo -e $divider8' /system/bin/LS00build.prop
+busybox sed -i '/$divider/c\busybox echo -e $divider8' /system/bin/LS00Cache_reclaiming
+busybox sed -i '/$divider/c\busybox echo -e $divider8' /system/bin/LS00Cleaner
+busybox sed -i '/$divider/c\busybox echo -e $divider8' /system/bin/LS00CPU_tuner
+busybox sed -i '/$divider/c\busybox echo -e $divider8' /system/bin/LS00Misc
+busybox sed -i '/$divider/c\busybox echo -e $divider8' /system/bin/LS00OOM
+busybox sed -i '/$divider/c\busybox echo -e $divider8' /system/bin/LS00Ram_manager
+busybox sed -i '/$divider/c\busybox echo -e $divider8' /system/bin/LS00Scheduler
+busybox sed -i '/$divider/c\busybox echo -e $divider8' /system/bin/LS00Seeder
+busybox sed -i '/$divider/c\busybox echo -e $divider8' /system/bin/LS00Wizard
+busybox echo ""
+busybox echo ""
+busybox echo "Theme is changed"
+busybox sleep 3
+LS00Theme
+busybox clear ;;
+
+9) busybox clear;
+sh system/bin/LS
+busybox clear ;;
+
+*) busybox clear;
+busybox echo "#Exit,Invalid Option"
+busybox sleep 1
+esac
+busybox echo ""
+exit

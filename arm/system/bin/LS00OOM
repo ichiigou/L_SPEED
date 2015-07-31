@@ -1,0 +1,124 @@
+#!/system/bin/sh
+# L SPEED MOD
+# Copyright (C) 2015 Paget96
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+mount -o remount,rw /
+mount -o remount,rw rootfs
+mount -o remount,rw /system
+busybox mount -o remount,rw /
+busybox mount -o remount,rw rootfs
+busybox mount -o remount,rw /system
+
+tweaks=/system/etc/L_SPEED/OOM
+turn_on=/system/etc/init.d
+divider1="\e[0;100m============================================= \e[00;37;40m" # Black
+divider2="\e[0;101m============================================= \e[00;37;40m" # Red
+divider3="\e[0;102m============================================= \e[00;37;40m" # Green
+divider4="\e[0;103m============================================= \e[00;37;40m" # Yellow
+divider5="\e[0;104m============================================= \e[00;37;40m" # Blue
+divider6="\e[0;105m============================================= \e[00;37;40m" # Purple
+divider7="\e[0;106m============================================= \e[00;37;40m" # Cyan
+divider8="\e[0;107m============================================= \e[00;37;40m" # White
+
+if [ -e $turn_on/LS00OOM_enabled ]; then
+	oom="\e[1;32mEnabled\e[0m"
+elif [ -e $turn_on/LS00OOM_disabled ]; then
+	oom="\e[1;31mDisabled\e[0m"
+else
+	oom="\e[1;30mDefault\e[0m"
+fi
+
+busybox clear
+
+busybox sleep 1
+busybox echo -e $divider5
+busybox echo ""
+busybox echo "        Out of memory killer"
+busybox echo ""
+busybox echo -e $divider5
+busybox echo ""
+busybox echo -e "Current: $oom"
+busybox sleep 1
+busybox echo -e $divider5
+busybox echo ""
+busybox echo "1. Default"
+busybox echo "2. Enable"
+busybox echo "3. Disable"
+busybox echo ""
+busybox echo "0. EXIT"
+busybox sleep 1
+busybox echo -e $divider5
+busybox echo -n "Now choose:   "       
+read option
+
+if [ $option -eq 1 ]; then
+		busybox echo "Enabling Default OOM killer.."
+		busybox sleep 1
+if [ -e $turn_on/LS00OOM_disabled ]; then
+		busybox rm $turn_on/LS00OOM_disabled
+fi
+if [ -e $turn_on/LS00OOM_enabled ]; then
+		busybox rm $turn_on/LS00OOM_enabled
+fi
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		LS00OOM
+	fi
+
+if [ $option -eq 2 ]; then
+		busybox echo "Enabling OOM killer.."
+		busybox sleep 1
+if [ -e $turn_on/LS00OOM_disabled ]; then
+		busybox rm $turn_on/LS00OOM_disabled
+fi
+		busybox sleep 1
+		busybox cp $tweaks/LS00OOM_enabled $turn_on/LS00OOM_enabled
+		busybox chmod 755 $turn_on/LS00OOM_enabled
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		LS00OOM
+fi
+
+if [ $option -eq 3 ]; then
+		busybox echo "Disabling OOM killer.."
+		busybox sleep 1
+if [ -e $turn_on/LS00OOM_enabled ]; then
+		busybox rm $turn_on/LS00OOM_enabled
+fi
+		busybox sleep 1
+		busybox cp $tweaks/LS00OOM_disabled $turn_on/LS00OOM_disabled
+		busybox chmod 755 $turn_on/LS00OOM_disabled
+		busybox echo "Done!"
+		busybox echo ""
+		busybox echo "Please reboot your device!!!"
+		busybox sleep 3
+		LS00OOM
+fi
+
+if [ $option -eq 0 ]; then
+	busybox clear
+	busybox echo "Going back to menu..."
+	sh system/bin/LS00Wizard
+fi
+
+exit
+ 
+else
+	busybox echo "Invalid option, please try again..."
+	busybox sleep 1
+        LS00OOM
+fi

@@ -1,0 +1,43 @@
+#!/system/bin/sh
+# L SPEED MOD
+# by Paget96, edited by churapa
+# Copyright (C) 2015 Paget96
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+mount -o remount,rw /
+mount -o remount,rw rootfs
+mount -o remount,rw /system
+busybox mount -o remount,rw /
+busybox mount -o remount,rw rootfs
+busybox mount -o remount,rw /system
+
+LS=/system/etc/L_SPEED/00L_STUFF/LOGS/Touch_tweak.log
+
+busybox rm -f $LS
+busybox touch $LS
+
+busybox echo "# L Speed log" | tee -a $LS
+busybox echo "" | tee -a $LS
+busybox echo "$( date +"%m-%d-%Y %H:%M:%S" ) Adding Touch tweak..." | tee -a $LS
+
+busybox sleep 10
+
+if [ -e /sys/class/touch/switch/set_touchscreen ]; then
+	busybox echo 7025 > /sys/class/touch/switch/set_touchscreen
+	busybox echo 8002 > /sys/class/touch/switch/set_touchscreen
+	busybox echo 11001 > /sys/class/touch/switch/set_touchscreen
+	busybox echo 13030 > /sys/class/touch/switch/set_touchscreen
+	busybox echo 14005 > /sys/class/touch/switch/set_touchscreen
+fi
+
+busybox echo "" | tee -a $LS
+busybox echo "$( date +"%m-%d-%Y %H:%M:%S" ) Touch tweak added" | tee -a $LS

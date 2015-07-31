@@ -1,0 +1,467 @@
+#!/system/bin/sh
+# L SPEED MOD
+# Copyright (C) 2015 Paget96
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+mount -o remount,rw /
+mount -o remount,rw rootfs
+mount -o remount,rw /system
+busybox mount -o remount,rw /
+busybox mount -o remount,rw rootfs
+busybox mount -o remount,rw /system
+
+# Variables
+magic=/system/etc/L_SPEED/SEEDER
+work_fol=/system/etc/init.d
+divider1="\e[0;100m============================================= \e[00;37;40m" # Black
+divider2="\e[0;101m============================================= \e[00;37;40m" # Red
+divider3="\e[0;102m============================================= \e[00;37;40m" # Green
+divider4="\e[0;103m============================================= \e[00;37;40m" # Yellow
+divider5="\e[0;104m============================================= \e[00;37;40m" # Blue
+divider6="\e[0;105m============================================= \e[00;37;40m" # Purple
+divider7="\e[0;106m============================================= \e[00;37;40m" # Cyan
+divider8="\e[0;107m============================================= \e[00;37;40m" # White
+
+
+busybox clear
+
+busybox echo -e $divider5
+busybox echo ""
+busybox echo " Seeder Entropy Generator Menu"
+busybox echo ""
+busybox echo -e $divider5  
+
+id=`id`; id=`busybox echo ${id#*=}`; id=`busybox echo ${id%%\(*}`; id=`busybox echo ${id%% *}`
+if [ "$id" != "0" ] && [ "$id" != "root" ]; then
+	busybox sleep 2
+	busybox echo -e $divider5
+	busybox echo ""
+	busybox echo "You are NOT running as root..."
+	busybox echo ""
+	busybox echo -e $divider5
+	busybox sleep 1
+	busybox echo ""
+	busybox echo "Please type 'su' first before typing 'seeder'..."
+	busybox echo ""
+	exit
+fi
+   
+if [ -e /system/xbin/haveged ]; then
+	seeder_profile="\e[1;32mHaveged\e[0m"
+elif [ -e $work_fol/LS00Seeder_light ]; then
+	seeder_profile="\e[1;33mLight\e[0m"
+elif [ -e $work_fol/LS00Seeder_enlarger ]; then
+	seeder_profile="\e[1;35mEnlarger\e[0m"
+elif [ -e $work_fol/LS00Seeder_moderate ]; then
+	seeder_profile="\e[1;36mModerate\e[0m"
+elif [ -e $work_fol/LS00Seeder_aggressive ]; then
+	seeder_profile="\e[1;34mAggressive\e[0m"
+else
+	seeder_profile="\e[1;31mSeeder is off\e[0m"
+fi
+
+busybox sleep 1
+busybox echo -e $divider5
+busybox echo ""
+busybox echo -e "Seeder profile: $seeder_profile"
+busybox echo ""
+busybox echo -e $divider
+busybox sleep 1
+
+busybox echo ""
+busybox echo "Choose profile:"
+busybox echo "1. Default"
+busybox echo "2. Haveged"
+busybox echo "3. Light"
+busybox echo "4. Enlarger"
+busybox echo "5. Moderate"
+busybox echo "6. Aggressive"
+busybox echo ""
+busybox echo "7. Check entropy"
+busybox echo "8. Go back to L Wizard"
+busybox echo ""
+busybox echo ""
+busybox echo -n "Please select an option [1-8]: "
+read option
+
+if [ $option -eq 1 ]; then
+	busybox sleep 0.5
+	busybox echo ""
+	busybox echo "Disabling seeder"
+	if [ -e /system/bin/qrngd.bak ]; then
+		busybox mv /system/bin/qrngd.bak /system/bin/qrngd
+		busybox chmod 755 /system/bin/qrngd
+		busybox chown 0.0 /system/bin/qrngd
+	fi
+	if [ -e /system/xbin/qrngd.bak ]; then
+		busybox mv /system/xbin/qrngd.bak /system/xbin/qrngd
+		busybox chmod 755 /system/xbin/qrngd
+		busybox chown 0.0 /system/xbin/qrngd
+	fi
+	if [ -e /system/bin/rngd.bak ]; then
+		busybox mv /system/bin/rngd.bak /system/bin/rngd
+		busybox chmod 755 /system/bin/rngd
+		busybox chown 0.0 /system/bin/rngd
+	fi
+	if [ -e /system/xbin/rngd.bak ]; then
+		busybox mv /system/xbin/rngd.bak /system/xbin/rngd
+		busybox chmod 755 /system/xbin/rngd
+		busybox chown 0.0 /system/xbin/rngd
+	fi
+	if [ -e $work_fol/LS00Seeder ]; then
+		busybox rm -f $work_fol/LS00Seeder
+	fi
+	busybox pkill /dev/haveged.pid
+	busybox rm -f /dev/haveged.pid
+	busybox pkill /system/xbin/haveged
+	busybox rm -f /system/xbin/haveged
+	if [ -e $work_fol/LS00Seeder_light ]; then
+		busybox rm $work_fol/LS00Seeder_light
+	fi
+	if [ -e $work_fol/LS00Seeder_enlarger ]; then
+		busybox rm $work_fol/LS00Seeder_enlarger
+	fi
+	if [ -e $work_fol/LS00Seeder_moderate ]; then
+		busybox rm $work_fol/LS00Seeder_moderate
+	fi
+	if [ -e $work_fol/LS00Seeder_aggressive ]; then
+		busybox rm $work_fol/LS00Seeder_aggressive
+	fi
+	busybox echo ""
+	busybox sleep 1
+	busybox echo "Done!"
+	busybox echo ""
+	busybox echo "Please reboot device"
+	busybox echo ""
+	busybox sleep 3
+	sh system/bin/LS00Seeder
+fi
+
+if [ $option -eq 2 ]; then
+	busybox sleep 0.5
+	if [ -e /system/bin/qrngd.bak ]; then
+		busybox mv /system/bin/qrngd.bak /system/bin/qrngd
+		busybox chmod 755 /system/bin/qrngd
+		busybox chown 0.0 /system/bin/qrngd
+	fi
+	if [ -e /system/xbin/qrngd.bak ]; then
+		busybox mv /system/xbin/qrngd.bak /system/xbin/qrngd
+		busybox chmod 755 /system/xbin/qrngd
+		busybox chown 0.0 /system/xbin/qrngd
+	fi
+	if [ -e /system/bin/rngd.bak ]; then
+		busybox mv /system/bin/rngd.bak /system/bin/rngd
+		busybox chmod 755 /system/bin/rngd
+		busybox chown 0.0 /system/bin/rngd
+	fi
+	if [ -e /system/xbin/rngd.bak ]; then
+		busybox mv /system/xbin/rngd.bak /system/xbin/rngd
+		busybox chmod 755 /system/xbin/rngd
+		busybox chown 0.0 /system/xbin/rngd
+	fi
+	if [ -e $work_fol/LS00Seeder ]; then
+		busybox rm -f $work_fol/LS00Seeder
+	fi
+		busybox pkill /dev/haveged.pid
+		busybox rm -f /dev/haveged.pid
+		busybox pkill /system/xbin/haveged
+		busybox rm -f /system/xbin/haveged
+	if [ -e $work_fol/LS00Seeder_light ]; then
+		busybox rm $work_fol/LS00Seeder_light
+	fi
+	if [ -e $work_fol/LS00Seeder_enlarger ]; then
+		busybox rm $work_fol/LS00Seeder_enlarger
+	fi
+	if [ -e $work_fol/LS00Seeder_moderate ]; then
+		busybox rm $work_fol/LS00Seeder_moderate
+	fi
+	if [ -e $work_fol/LS00Seeder_aggressive ]; then
+		busybox rm $work_fol/LS00Seeder_aggressive
+	fi
+	busybox echo "Enabling haveged seeder profile..."
+	busybox sleep 1
+	if [ -e /system/bin/qrngd ]; then
+		busybox mv /system/bin/qrngd /system/bin/qrngd.bak
+	fi
+
+	if [ -e /system/xbin/qrngd ]; then
+		busybox mv /system/xbin/qrngd /system/xbin/qrngd.bak
+	fi
+
+	if [ -e /system/bin/rngd ]; then
+		busybox mv /system/bin/rngd /system/bin/rngd.bak
+	fi
+
+	if [ -e /system/xbin/rngd ]; then
+		busybox mv /system/xbin/rngd /system/xbin/rngd.bak
+	fi
+	busybox cp $magic/haveged /system/xbin/haveged
+	busybox chmod 755 /system/xbin/haveged
+	busybox chown 0.0 /system/xbin/haveged
+
+	busybox cp $magic/LS00Seeder $work_fol/LS00Seeder
+	busybox chmod 755 $work_fol/LS00Seeder
+
+	busybox rm -f /dev/haveged.pid
+	busybox touch /dev/haveged.pid
+	haveged
+	busybox renice -9 `busybox pidof haveged`
+	busybox echo "Done!"
+	busybox echo ""
+	busybox echo "Please reboot your device!!!"
+	busybox sleep 3
+	sh system/bin/LS00Seeder
+fi
+
+
+if [ $option -eq 3 ]; then
+	busybox sleep 0.5
+	if [ -e /system/bin/qrngd.bak ]; then
+		busybox mv /system/bin/qrngd.bak /system/bin/qrngd
+		busybox chmod 755 /system/bin/qrngd
+		busybox chown 0.0 /system/bin/qrngd
+	fi
+	if [ -e /system/xbin/qrngd.bak ]; then
+		busybox mv /system/xbin/qrngd.bak /system/xbin/qrngd
+		busybox chmod 755 /system/xbin/qrngd
+		busybox chown 0.0 /system/xbin/qrngd
+	fi
+	if [ -e /system/bin/rngd.bak ]; then
+		busybox mv /system/bin/rngd.bak /system/bin/rngd
+		busybox chmod 755 /system/bin/rngd
+		busybox chown 0.0 /system/bin/rngd
+	fi
+	if [ -e /system/xbin/rngd.bak ]; then
+		busybox mv /system/xbin/rngd.bak /system/xbin/rngd
+		busybox chmod 755 /system/xbin/rngd
+		busybox chown 0.0 /system/xbin/rngd
+	fi
+	if [ -e $work_fol/LS00Seeder ]; then
+		busybox rm -f $work_fol/LS00Seeder
+	fi
+	busybox pkill /dev/haveged.pid
+	busybox rm -f /dev/haveged.pid
+	busybox pkill /system/xbin/haveged
+	busybox rm -f /system/xbin/haveged
+	if [ -e $work_fol/LS00Seeder_light ]; then
+		busybox rm $work_fol/LS00Seeder_light
+	fi
+	if [ -e $work_fol/LS00Seeder_enlarger ]; then
+		busybox rm $work_fol/LS00Seeder_enlarger
+	fi
+	if [ -e $work_fol/LS00Seeder_moderate ]; then
+		busybox rm $work_fol/LS00Seeder_moderate
+	fi
+	if [ -e $work_fol/LS00Seeder_aggressive ]; then
+		busybox rm $work_fol/LS00Seeder_aggressive
+	fi
+	busybox echo "Enabling light seeder profile..."
+	busybox sleep 1
+	busybox echo ""
+	busybox sleep 1
+	busybox cp $magic/LS00Seeder_light $work_fol/LS00Seeder_light
+	busybox chmod 755 $work_fol/LS00Seeder_light
+	sh $magic/LS00Seeder_light
+	busybox echo ""
+	busybox echo "Done!"
+	busybox echo ""
+	busybox echo ""
+	busybox sleep 3
+	sh system/bin/LS00Seeder
+fi
+
+if [ $option -eq 4 ]; then
+	busybox sleep 0.5
+	if [ -e /system/bin/qrngd.bak ]; then
+		busybox mv /system/bin/qrngd.bak /system/bin/qrngd
+		busybox chmod 755 /system/bin/qrngd
+		busybox chown 0.0 /system/bin/qrngd
+	fi
+	if [ -e /system/xbin/qrngd.bak ]; then
+		busybox mv /system/xbin/qrngd.bak /system/xbin/qrngd
+		busybox chmod 755 /system/xbin/qrngd
+		busybox chown 0.0 /system/xbin/qrngd
+	fi
+	if [ -e /system/bin/rngd.bak ]; then
+		busybox mv /system/bin/rngd.bak /system/bin/rngd
+		busybox chmod 755 /system/bin/rngd
+		busybox chown 0.0 /system/bin/rngd
+	fi
+	if [ -e /system/xbin/rngd.bak ]; then
+		busybox mv /system/xbin/rngd.bak /system/xbin/rngd
+		busybox chmod 755 /system/xbin/rngd
+		busybox chown 0.0 /system/xbin/rngd
+	fi
+	if [ -e $work_fol/LS00Seeder ]; then
+		busybox rm -f $work_fol/LS00Seeder
+	fi
+		busybox pkill /dev/haveged.pid
+		busybox rm -f /dev/haveged.pid
+		busybox pkill /system/xbin/haveged
+		busybox rm -f /system/xbin/haveged
+	if [ -e $work_fol/LS00Seeder_light ]; then
+		busybox rm $work_fol/LS00Seeder_light
+	fi
+	if [ -e $work_fol/LS00Seeder_enlarger ]; then
+		busybox rm $work_fol/LS00Seeder_enlarger
+	fi
+	if [ -e $work_fol/LS00Seeder_moderate ]; then
+		busybox rm $work_fol/LS00Seeder_moderate
+	fi
+	if [ -e $work_fol/LS00Seeder_aggressive ]; then
+		busybox rm $work_fol/LS00Seeder_aggressive
+	fi
+	busybox echo "Enabling enlarger seeder profile..."
+	busybox sleep 1
+	busybox echo ""
+	busybox sleep 1
+	busybox cp $magic/LS00Seeder_enlarger $work_fol/LS00Seeder_enlarger
+	busybox chmod 755 $work_fol/LS00Seeder_enlarger
+	sh $magic/LS00Seeder_enlarger
+	busybox echo ""
+	busybox echo "Done!"
+	busybox echo ""
+	busybox echo ""
+	busybox sleep 3
+	sh system/bin/LS00Seeder
+fi
+
+if [ $option -eq 5 ]; then
+	busybox sleep 0.5
+	if [ -e /system/bin/qrngd.bak ]; then
+		busybox mv /system/bin/qrngd.bak /system/bin/qrngd
+		busybox chmod 755 /system/bin/qrngd
+		busybox chown 0.0 /system/bin/qrngd
+	fi
+	if [ -e /system/xbin/qrngd.bak ]; then
+		busybox mv /system/xbin/qrngd.bak /system/xbin/qrngd
+		busybox chmod 755 /system/xbin/qrngd
+		busybox chown 0.0 /system/xbin/qrngd
+	fi
+	if [ -e /system/bin/rngd.bak ]; then
+		busybox mv /system/bin/rngd.bak /system/bin/rngd
+		busybox chmod 755 /system/bin/rngd
+		busybox chown 0.0 /system/bin/rngd
+	fi
+	if [ -e /system/xbin/rngd.bak ]; then
+		busybox mv /system/xbin/rngd.bak /system/xbin/rngd
+		busybox chmod 755 /system/xbin/rngd
+		busybox chown 0.0 /system/xbin/rngd
+	fi
+	if [ -e $work_fol/LS00Seeder ]; then
+		busybox rm -f $work_fol/LS00Seeder
+	fi
+	busybox pkill /dev/haveged.pid
+	busybox rm -f /dev/haveged.pid
+	busybox pkill /system/xbin/haveged
+	busybox rm -f /system/xbin/haveged
+	if [ -e $work_fol/LS00Seeder_light ]; then
+		busybox rm $work_fol/LS00Seeder_light
+	fi
+	if [ -e $work_fol/LS00Seeder_enlarger ]; then
+		busybox rm $work_fol/LS00Seeder_enlarger
+	fi
+	if [ -e $work_fol/LS00Seeder_moderate ]; then
+		busybox rm $work_fol/LS00Seeder_moderate
+	fi
+	if [ -e $work_fol/LS00Seeder_aggressive ]; then
+		busybox rm $work_fol/LS00Seeder_aggressive
+	fi
+	busybox echo "Enabling moderate seeder profile..."
+	busybox sleep 1
+	busybox echo ""
+	busybox sleep 1
+	busybox cp $magic/LS00Seeder_moderate $work_fol/LS00Seeder_moderate
+	busybox chmod 755 $work_fol/LS00Seeder_moderate
+	sh $magic/LS00Seeder_moderate
+	busybox echo ""
+	busybox echo "Done!"
+	busybox echo ""
+	busybox echo ""
+	busybox sleep 3
+	sh system/bin/LS00Seeder
+fi
+
+if [ $option -eq 6 ]; then
+	busybox sleep 0.5
+	if [ -e /system/bin/qrngd.bak ]; then
+		busybox mv /system/bin/qrngd.bak /system/bin/qrngd
+		busybox chmod 755 /system/bin/qrngd
+		busybox chown 0.0 /system/bin/qrngd
+	fi
+	if [ -e /system/xbin/qrngd.bak ]; then
+		busybox mv /system/xbin/qrngd.bak /system/xbin/qrngd
+		busybox chmod 755 /system/xbin/qrngd
+		busybox chown 0.0 /system/xbin/qrngd
+	fi
+	if [ -e /system/bin/rngd.bak ]; then
+		busybox mv /system/bin/rngd.bak /system/bin/rngd
+		busybox chmod 755 /system/bin/rngd
+		busybox chown 0.0 /system/bin/rngd
+	fi
+	if [ -e /system/xbin/rngd.bak ]; then
+		busybox mv /system/xbin/rngd.bak /system/xbin/rngd
+		busybox chmod 755 /system/xbin/rngd
+		busybox chown 0.0 /system/xbin/rngd
+	fi
+	if [ -e $work_fol/LS00Seeder ]; then
+		busybox rm -f $work_fol/LS00Seeder
+	fi
+		busybox pkill /dev/haveged.pid
+		busybox rm -f /dev/haveged.pid
+		busybox pkill /system/xbin/haveged
+		busybox rm -f /system/xbin/haveged
+	if [ -e $work_fol/LS00Seeder_light ]; then
+		busybox rm $work_fol/LS00Seeder_light
+	fi
+	if [ -e $work_fol/LS00Seeder_enlarger ]; then
+		busybox rm $work_fol/LS00Seeder_enlarger
+	fi
+	if [ -e $work_fol/LS00Seeder_moderate ]; then
+		busybox rm $work_fol/LS00Seeder_moderate
+	fi
+	if [ -e $work_fol/LS00Seeder_aggressive ]; then
+		busybox rm $work_fol/LS00Seeder_aggressive
+	fi
+	busybox echo "Enabling aggressive seeder profile..."
+	busybox sleep 1
+	busybox echo ""
+	busybox sleep 1
+	busybox cp $magic/LS00Seeder_aggressive $work_fol/LS00Seeder_aggressive
+	busybox chmod 755 $work_fol/LS00Seeder_aggressive
+	sh $magic/LS00Seeder_aggressive
+	busybox echo ""
+	busybox echo "Done!"
+	busybox echo ""
+	busybox echo ""
+	busybox sleep 3
+	sh system/bin/LS00Seeder
+fi
+
+if [ $option -eq 7 ]; then
+	busybox sleep 0.5
+	busybox clear
+	entro
+fi
+
+if [ $option -eq 8 ]; then
+	busybox sleep 1
+	sh system/bin/LS00Wizard
+fi
+
+exit
+
+else
+	busybox echo "Invalid option, please try again..."
+	busybox sleep 1
+	sh system/bin/LS00Seeder
+fi

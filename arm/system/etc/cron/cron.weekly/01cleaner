@@ -1,0 +1,16 @@
+#!/system/bin/sh
+
+. /system/etc/cron/cron.conf
+
+if test $WEEKLY_CLEAN -eq 1; then
+       if [ -e /system/etc/init.d/LS00Cleaner ]; then
+		sh /system/etc/init.d/LS00Cleaner
+	fi
+REMOVE_CACHE=1
+if busybox [ $REMOVE_CACHE -eq 1 ]; then
+	CACHE_DIR=(` busybox find / -type d -iname *cache* 2> /dev/null`)
+	for dir in ${CACHE_DIR[*]}; do
+		busybox find $dir -type f -delete 2> /dev/null
+	done
+      fi
+fi
